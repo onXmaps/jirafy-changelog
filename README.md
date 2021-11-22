@@ -4,7 +4,7 @@ This action generates a changelog from two references, where the markdown is for
 I wanted to include a link to Jira tickets that were linked in Pull Request(s) title.
 
 # Get a changelog between two references
-<a href="https://github.com/coltdorsey/jirafy-changelog/releases/tag/v1.0.0"><img alt="Example Jirafy Changelog" src="./changelog_example.png" width="400"></a>
+<a href="https://github.com/coltdorsey/jirafy-changelog/releases/tag/v1.1.0"><img alt="Example Jirafy Changelog" src="./changelog_example.png" width="400"></a>
 
 ## Inputs
 
@@ -112,7 +112,7 @@ Some folks have asked if the action can support changing the output. For example
   * Ignore entries that include this string.
   * Etc.
 
-In order to keep this action as simple as possible we aren't planning to add more flags or options. However since the output is just text you can write a command line to do anything you want. In issue #93 we had a user that wanted to list the changelog in reverse order and drop any entries with `gh-pages`. Here is how they can do that but using Bumping as the restrict word because it shows up in this projects history:
+In order to keep this action as simple as possible we aren't planning to add more flags or options. However since the output is just text you can write a command line to do anything you want. If you want to list the changelog in reverse order and drop any entries with `gh-pages`. Here is how they can do that but using Bumping as the restrict word because it shows up in this projects history:
 
 ```yaml
       - name: Modify the changelog
