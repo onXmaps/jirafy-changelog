@@ -4,7 +4,7 @@ This action generates a changelog from two references, where the markdown is for
 I wanted to include a link to Jira tickets that were linked in Pull Request(s) title.
 
 # Get a changelog between two references
-<a href="https://github.com/coltdorsey/jirafy-changelog/releases/tag/v1.0.0"><img alt="Example Jirafy Changelog" src="./changelog_example.png" width="400"></a>
+<a href="https://github.com/coltdorsey/jirafy-changelog/releases/tag/v1.1.0"><img alt="Example Jirafy Changelog" src="./changelog_example.png" width="400"></a>
 
 ## Inputs
 
