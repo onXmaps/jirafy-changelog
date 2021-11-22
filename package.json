@@ -1,6 +1,6 @@
 {
   "name": "jirafy-changelog",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generates a changelog from two references, where the markdown is formatted for any referenced Jira stories.d",
   "main": "dist/index.js",
   "scripts": {
