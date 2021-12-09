@@ -34,7 +34,7 @@
     "@actions/core": "^1.5.0",
     "@actions/exec": "^1.1.0",
     "@actions/github": "^5.0.0",
-    "jira-client": "^6.22.0"
+    "jira-client": "^8.0.0"
   },
   "devDependencies": {
     "@vercel/ncc": "0.33.0",
