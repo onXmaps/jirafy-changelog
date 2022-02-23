@@ -1,7 +1,7 @@
 {
   "name": "jirafy-changelog",
   "version": "1.1.0",
-  "description": "Generates a changelog from two references, where the markdown is formatted for any referenced Jira stories.d",
+  "description": "Generates a changelog from two references, where the markdown is formatted for any referenced Jira stories.",
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build ./index.js",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/coltdorsey/jirafy-changelog.git"
+    "url": "git+https://github.com/onxmaps/jirafy-changelog.git"
   },
   "keywords": [
     "jira",
@@ -27,9 +27,9 @@
   "author": "Colt Dorsey",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/coltdorsey/jirafy-changelog/issues"
+    "url": "https://github.com/onxmaps/jirafy-changelog/issues"
   },
-  "homepage": "https://github.com/coltdorsey/jirafy-changelog#readme",
+  "homepage": "https://github.com/onxmaps/jirafy-changelog#readme",
   "dependencies": {
     "@actions/core": "^1.5.0",
     "@actions/exec": "^1.1.0",

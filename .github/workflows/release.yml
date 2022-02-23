@@ -15,7 +15,7 @@ jobs:
 
       - name: Jirafy Changelog
         id: changelog
-        uses: coltdorsey/jirafy-changelog@v1.1.0
+        uses: dist/index.js
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: 'coltdorsey.atlassian.net'
