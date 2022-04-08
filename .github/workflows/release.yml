@@ -15,7 +15,7 @@ jobs:
 
       - name: Jirafy Changelog
         id: changelog
-        uses: dist/index.js
+        uses: ./
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: 'coltdorsey.atlassian.net'
