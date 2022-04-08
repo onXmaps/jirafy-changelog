@@ -4,7 +4,7 @@ This action generates a changelog from two references, where the markdown is for
 I wanted to include a link to Jira tickets that were linked in Pull Request(s) title.
 
 # Get a changelog between two references
-<a href="https://github.com/coltdorsey/jirafy-changelog/releases/tag/v1.1.0"><img alt="Example Jirafy Changelog" src="./changelog_example.png" width="400"></a>
+<a href="https://github.com/onXmaps/jirafy-changelog/releases/tag/v1.1.0"><img alt="Example Jirafy Changelog" src="./changelog_example.png" width="400"></a>
 
 ## Inputs
 
@@ -58,7 +58,7 @@ jobs:
 
       - name: Jirafy Changelog
         id: changelog
-        uses: coltdorsey/jirafy-changelog@v1.0.0
+        uses: onXmaps/jirafy-changelog@v1.0.0
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: ${{ secrets.JIRA_HOST }}
@@ -85,7 +85,7 @@ If you have two specific references you want:
 ```yaml
 - name: Jirafy Changelog
   id: changelog
-  uses: coltdorsey/jirafy-changelog@v1.0.0
+  uses: onXmaps/jirafy-changelog@v1.0.0
   with:
     head-ref: 'v0.0.2'
     base-ref: 'v0.0.1'
@@ -144,7 +144,7 @@ You might be wondering about that set of escaping for the `log`. Thats because G
 
 Issues are for folks who are actively using the action and running into an "issue" (bug, missing doc, etc).
 
-Feature requests should be in the [discussion section.](https://github.com/coltdorsey/jirafy-changelog/discussions).
+Feature requests should be in the [discussion section.](https://github.com/onXmaps/jirafy-changelog/discussions).
 Just to set expectations the bar for a new feature getting added is going to be very high. There is a
 cost to adding features in the development and maintainance of the feature. So if you want to jump in and
 help develop and maintain lets discuss. If you want to fire off feature ideas, go for it. Just understand its
@@ -180,4 +180,4 @@ repository uses this action and GitHub releases for an [example](.github/workflo
 
 ## Acknowledgements
 
-I used the changelog-generator framework for this action from: [metcalfc/changelog-generator](https://github.com/metcalfc/changelog-generator). Thanks @metcalfc.
+I used the changelog-generator general framework for this action from: [metcalfc/changelog-generator](https://github.com/metcalfc/changelog-generator). Thanks @metcalfc.

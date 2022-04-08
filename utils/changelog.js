@@ -31,10 +31,7 @@ function jirafyChangelog(changelog) {
 
   try {
     const regex = /(\[?)([A-Za-z0-9]+-\d+)(\]?)/gm
-    revisedChangelog = changelog.replace(
-      regex,
-      ` [\`$2\`](https://${jiraHost}/browse/$2)`,
-    )
+    revisedChangelog = changelog.replace(regex, ` [\`$2\`](https://${jiraHost}/browse/$2)`)
   } catch (error) {
     core.setFailed(error.message)
   }
