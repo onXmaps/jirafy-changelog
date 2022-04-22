@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "0.33.0",
+    "cypress": "^9.5.4",
     "dotenv": "^10.0.0",
     "prettier": "2.5.1"
   }
