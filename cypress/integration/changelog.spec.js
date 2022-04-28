@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-const { jirafyChangelog, parseChangelogForJiraTickets } = require('../../utils/changelog')
+const { jirafyChangelog, parseChangelogForJiraTickets, uppercaseJiraTickets } = require('../../utils/changelog')
 describe('Jirafy Changelog', () => {
 
     const changelog_lowercase = "* [`7e3cb59`](http://github.com/onXmaps/jirafy-changelog/commit/7e3cb591882985c010b7134b9554c7c4a4c6d5b0) [JIRAFY-2] Add github workflows - Merge pull request #2 from coltdorsey/colt/add-github-workflows \
@@ -16,17 +16,32 @@ describe('Jirafy Changelog', () => {
     * [`ce73404`](http://github.com/onXmaps/jirafy-changelog/commit/ce73404ce5cb38c9c6a86b6188a790e76a7575fb) [SDET-486] Updating references - Merge pull request #22 from onXmaps/colt/update-references"
 
     context('formatting', () => {
-        it('ensures references to Jira Tickets are upppercase', () => {
+        it('ensures references to Jira Tickets are uppercase', () => {
             cy.wrap({ jirafyChangelog })
                 .invoke('jirafyChangelog', changelog_lowercase)
                 .then((changelog) => {
-
+                    console.log(changelog)
                     cy.wrap({ parseChangelogForJiraTickets })
                         .invoke('parseChangelogForJiraTickets', changelog)
                         .then((tickets) => {
-
                             tickets.forEach((ticket) => {
                                 expect(ticket).to.equal(ticket.toUpperCase())
+                            })
+                        })
+                })
+        })
+
+        it('ensures branch references are omitted from jirafication', () => {
+            cy.wrap({ jirafyChangelog })
+                .invoke('jirafyChangelog', changelog_lowercase)
+                .then((changelog) => {
+                    console.log(changelog)
+                    cy.wrap({ parseChangelogForJiraTickets })
+                        .invoke('parseChangelogForJiraTickets', changelog)
+                        .then((tickets) => {
+                            tickets.forEach((ticket) => {
+                                //expect(ticket).to.equal(ticket.toUpperCase())
+                                expect(ticket).to.not.equal('changelog-1')
                             })
                         })
                 })
