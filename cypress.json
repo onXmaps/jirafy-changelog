@@ -1,3 +1,5 @@
 {
-    "projectId": "kuhc36"
+    "$schema": "https://on.cypress.io/cypress.schema.json",
+    "projectId": "kuhc36",
+    "videoUploadOnPasses": false
 }
