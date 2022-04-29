@@ -3,7 +3,7 @@
 const { jirafyChangelog, parseChangelogForJiraTickets, uppercaseJiraTickets } = require('../../utils/changelog')
 describe('Jirafy Changelog', () => {
 
-    const changelog_lowercase = "* [`7e3cb59`](http://github.com/onXmaps/jirafy-changelog/commit/7e3cb591882985c010b7134b9554c7c4a4c6d5b0) [JIRAFY-2] Add github workflows - Merge pull request #2 from coltdorsey/colt/add-github-workflows \
+    const changelog_lowercase = "* [`7e3cb59`](http://github.com/onXmaps/jirafy-changelog/commit/7e3cb591882985c010b7134b9554c7c4a4c6d5b0) [jirafy-2] Add github workflows - Merge pull request #2 from coltdorsey/colt/add-github-workflows \
     * [`718a2e8`](http://github.com/onXmaps/jirafy-changelog/commit/718a2e84911bddcb1e7df6182bcbd233f6c195b3) [JIRAFY-3] Use published action - Merge pull request #3 from coltdorsey/colt/use-published-action \
     * [`fcd361c`](http://github.com/onXmaps/jirafy-changelog/commit/fcd361c85f0cd1a20163c90ba51fce7b489537eb) [JIRAFY-4] Readme update & version bump - Merge pull request #4 from coltdorsey/release/v1.1.0 \
     * [`4f94449`](http://github.com/onXmaps/jirafy-changelog/commit/4f94449419698e134785e58ceac74702ab47781b) [JIRAFY-5] Readme example release update - Merge pull request #5 from coltdorsey/colt/readme-example-release \
@@ -40,7 +40,6 @@ describe('Jirafy Changelog', () => {
                         .invoke('parseChangelogForJiraTickets', changelog)
                         .then((tickets) => {
                             tickets.forEach((ticket) => {
-                                //expect(ticket).to.equal(ticket.toUpperCase())
                                 expect(ticket).to.not.equal('changelog-1')
                             })
                         })
