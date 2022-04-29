@@ -31,3 +31,20 @@ jobs:
           body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - run: npm install --production
+
+      # Sync the changelog with Jira projects / Tickets
+      - name: Jirafy Sync
+        uses: onXmaps/jirafy-sync@v2.0.1
+        with:
+          changelog: ${{ steps.changelog.outputs.changelog }}
+          jiraVersion: ${{ github.ref_name }}
+          jiraHost: ${{ secrets.JIRA_HOST }}
+          jiraUsername: ${{ secrets.JIRA_USERNAME }}
+          jiraToken: ${{ secrets.JIRA_TOKEN }}
