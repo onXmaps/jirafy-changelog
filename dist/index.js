@@ -9555,9 +9555,10 @@ function parseChangelogForJiraTickets(changelog) {
   var stories
 
   try {
-    const regex = /([A-Za-z0-9]+-\d+)/g
+    const regex = /([A-Za-z0-9]+-\d+)(?=`)/g
     stories = [...changelog.matchAll(regex)]
   } catch (error) {
+    console.log(error)
     core.setFailed(error.message)
   }
 
@@ -9567,26 +9568,62 @@ function parseChangelogForJiraTickets(changelog) {
 }
 
 /**
- * Add Jira markup to changelog
+ * Adds markup to a given changelog for referenced Jira Tickets
  * @param {String} changelog
- * @returns {String} Modified changelog that includes Jira ticket hyperlink(s)
+ * @returns {String} Modified changelog
  */
-function jirafyChangelog(changelog) {
+function addMarkupToChangelog(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /(\[?)([A-Za-z0-9]+-\d+)(\]?)/gm
+    const regex = /(\[?)([A-Za-z0-9]+-\d+)(\]?)(?=\s)/gm
     revisedChangelog = changelog.replace(regex, ` [\`$2\`](https://${jiraHost}/browse/$2)`)
   } catch (error) {
+    console.log(error)
     core.setFailed(error.message)
   }
 
+  console.log('markup changelog: ', revisedChangelog)
   return revisedChangelog
+}
+
+/**
+ * Formats referenced jira tickets to uppercase
+ * @param {String} changelog
+ * @returns {String} Modified changelog
+ */
+function formatJiraTickets(changelog) {
+  var revisedChangelog
+
+  try {
+    const regex = /([A-Za-z0-9]+-\d+)(?=`)/g
+    revisedChangelog = changelog.replace(regex, (p1) => p1.toUpperCase())
+  } catch (error) {
+    console.log(error)
+    core.setFailed(error.message)
+  }
+
+  console.log('format Jira changelog: ', revisedChangelog)
+  return revisedChangelog
+}
+
+/**
+ * Add Jira markup to changelog
+ * @param {String} changelog
+ * @returns {String} Modified changelog
+ */
+function jirafyChangelog(changelog) {
+  var revisedChangelog = addMarkupToChangelog(changelog)
+  var formattedChangelog = formatJiraTickets(revisedChangelog)
+
+  return formattedChangelog
 }
 
 module.exports = {
   parseChangelogForJiraTickets,
   jirafyChangelog,
+  addMarkupToChangelog,
+  formatJiraTickets,
 }
 
 
