@@ -91,7 +91,7 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        it.only('ensure referenced jira tickets include markup', () => {
+        it('ensure referenced jira tickets include markup', () => {
             cy.fixture('changelog_markup_no.md').then((ch_m_n) => {
                 cy.wrap({ addMarkupToChangelog })
                     .invoke('addMarkupToChangelog', ch_m_n)
