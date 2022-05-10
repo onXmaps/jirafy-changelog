@@ -17,6 +17,12 @@
  */
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+  require('dotenv').config()
+  config.env = config.env || {}
+
+  config.env.JIRA_HOST = process.env.JIRA_HOST
+  console.log('process.env.JIRA_HOST: ', process.env.JIRA_HOST)
+  console.log('extended config.env with process.env.{JIRA_HOST}')
+  
+  return config
 }
