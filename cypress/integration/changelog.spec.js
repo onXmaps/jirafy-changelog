@@ -29,6 +29,20 @@ describe('Jirafy Changelog', () => {
         })
     })
 
+    context('smoke test', () => {
+        it('jirafyChangelog', () => {
+            cy.fixture('smoke_test_base.md').then((s_t_b) => {
+                cy.wrap({ jirafyChangelog })
+                    .invoke('jirafyChangelog', s_t_b)
+                    .then((actualChangelog) => {
+                        cy.fixture('smoke_test.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
+            })
+        })
+    })
+
     context('formatting', () => {
         beforeEach(() => {
             cy.wrap({ jirafyChangelog })
@@ -83,9 +97,9 @@ describe('Jirafy Changelog', () => {
             cy.fixture('changelog_brackets_no.md').then((ch_n_b) => {
                 cy.wrap({ surroundTicketListWithBrackets })
                     .invoke('surroundTicketListWithBrackets', ch_n_b)
-                    .then((ch_c_w_b) => {
+                    .then((ch_b) => {
                         cy.fixture('changelog_brackets.md').then((expectedChangelog) => {
-                            expect(ch_c_w_b).to.equal(expectedChangelog)
+                            expect(ch_b).to.equal(expectedChangelog)
                         })
                     })
             })

@@ -22,27 +22,6 @@ function parseChangelogForJiraTickets(changelog) {
 }
 
 /**
- * Enhances a given changelog with consideration of referenced to Jira Tickets
- * @param {String} changelog
- * @returns {String} Modified changelog
- */
- function jirafyChangelog(changelog) {
-  return formatChangelog(changelog)
-}
-
-/**
- * Formats the given changelog for output
- * @param {String} changelog 
- * @returns Modified changelog
- */
-function formatChangelog(changelog) {
-  var revisedChangelog = stripBrackets(changelog)
-  revisedChangelog = toUpperJiraTickets(revisedChangelog)
-  revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
-  return surroundTicketListWithBrackets(revisedChangelog)
-}
-
-/**
  * Strips referenced jira tickets that are already surrounded by brackets
  * @param {String} changelog 
  * @returns Modified changelog
@@ -51,8 +30,8 @@ function stripBrackets(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /(\[?)([a-zA-Z0-9]+)(-\d+)(\]?)(?=\s|\,)/g
-    revisedChangelog = changelog.replace(regex, '$2$3')
+    const regex = /(?:\[)([a-zA-Z0-9]+-\d+)(?:\]?)|(?:\[)*([a-zA-Z0-9]+-\d+)(?:\])/g
+    revisedChangelog = changelog.replace(regex, '$1$2')
   } catch(error) {
     console.log(error)
     core.setFailed(error.message)
@@ -70,7 +49,7 @@ function stripBrackets(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /([a-zA-Z0-9]+)(-\d+)(?=\s|\,)/g
+    const regex = /([a-zA-Z0-9]+)(-\d+)(?=([a-zA-Z0-9]+)(-\d+)(?=\s|\,))|([a-zA-Z0-9]+)(-\d+)(?=\s|\,)/g
     revisedChangelog = changelog.replace(regex, (p1) => p1.toUpperCase())
   } catch (error) {
     console.log(error)
@@ -135,6 +114,28 @@ function surroundTicketListWithBrackets(changelog) {
   }
 
   return revisedChangelog
+}
+
+/**
+ * Formats the given changelog for output
+ * @param {String} changelog 
+ * @returns Modified changelog
+ */
+function formatChangelog(changelog) {
+  var revisedChangelog = stripBrackets(changelog)
+  revisedChangelog = toUpperJiraTickets(revisedChangelog)
+  revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
+  revisedChangelog = surroundTicketListWithBrackets(revisedChangelog)
+  return addMarkupToChangelog(revisedChangelog)
+}
+
+/**
+ * Enhances a given changelog with consideration of referenced to Jira Tickets
+ * @param {String} changelog
+ * @returns {String} Modified changelog
+ */
+ function jirafyChangelog(changelog) {
+  return formatChangelog(changelog)
 }
 
 module.exports = {
