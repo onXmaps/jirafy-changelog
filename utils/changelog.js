@@ -2,28 +2,8 @@ const core = require('@actions/core')
 var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('JIRA_HOST')
 
 /**
- * Parses given changelog for Jira tickets
- * @param {String} changelog
- * @returns {Array} Jira tickets parsed from the changelog. Removes duplicates.
- */
-function parseChangelogForJiraTickets(changelog) {
-  var stories
-
-  try {
-    const regex = /([A-Za-z0-9]+-\d+)(?=\]|\,)|([A-Za-z0-9]+-\d+)(?=\`|\s)/gm
-    stories = [...changelog.matchAll(regex)]
-  } catch (error) {
-    console.log(error)
-    core.setFailed(error.message)
-  }
-
-  const duplicates = stories.map((m) => m[0])
-  return [...new Set(duplicates)]
-}
-
-/**
  * Strips referenced jira tickets that are already surrounded by brackets
- * @param {String} changelog 
+ * @param {String} changelog
  * @returns Modified changelog
  */
 function stripBrackets(changelog) {
@@ -32,7 +12,7 @@ function stripBrackets(changelog) {
   try {
     const regex = /(?:\[)([a-zA-Z0-9]+-\d+)(?:\]?)|(?:\[)*([a-zA-Z0-9]+-\d+)(?:\])/g
     revisedChangelog = changelog.replace(regex, '$1$2')
-  } catch(error) {
+  } catch (error) {
     console.log(error)
     core.setFailed(error.message)
   }
@@ -45,7 +25,7 @@ function stripBrackets(changelog) {
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
- function toUpperJiraTickets(changelog) {
+function toUpperJiraTickets(changelog) {
   var revisedChangelog
 
   try {
@@ -61,7 +41,7 @@ function stripBrackets(changelog) {
 
 /**
  * Separates referenced Jira Tickets with a comma space format
- * @param {String} changelog 
+ * @param {String} changelog
  * @returns Modified changelog
  */
 function addCommaSpaceBetweenJiraTickets(changelog) {
@@ -70,7 +50,7 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
   try {
     const regex = /([A-Z0-9]+-\d+)(\,?|\,?\s?)(?=[A-Z0-9]+-\d+)/g
     revisedChangelog = changelog.replace(regex, '$1, ')
-  } catch(error) {
+  } catch (error) {
     console.log(error)
     core.setFailed(error.message)
   }
@@ -80,7 +60,7 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
 
 /**
  * Surrounds jira ticket list with brackets
- * @param {String} changelog 
+ * @param {String} changelog
  * @returns Modified changelog
  */
 function surroundTicketListWithBrackets(changelog) {
@@ -89,7 +69,7 @@ function surroundTicketListWithBrackets(changelog) {
   try {
     const regex = /((?:[A-Z0-9]+-\d+\,\s)*(?:[A-Z0-9]+-\d+))/g
     revisedChangelog = changelog.replace(regex, '[$1]')
-  } catch(error) {
+  } catch (error) {
     console.log(error)
     core.setFailed(error.message)
   }
@@ -102,7 +82,7 @@ function surroundTicketListWithBrackets(changelog) {
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
- function addMarkupToChangelog(changelog) {
+function addMarkupToChangelog(changelog) {
   var revisedChangelog
 
   try {
@@ -118,7 +98,7 @@ function surroundTicketListWithBrackets(changelog) {
 
 /**
  * Formats the given changelog for output
- * @param {String} changelog 
+ * @param {String} changelog
  * @returns Modified changelog
  */
 function formatChangelog(changelog) {
@@ -134,16 +114,15 @@ function formatChangelog(changelog) {
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
- function jirafyChangelog(changelog) {
+function jirafyChangelog(changelog) {
   return formatChangelog(changelog)
 }
 
 module.exports = {
-  parseChangelogForJiraTickets,
   jirafyChangelog,
   addMarkupToChangelog,
   toUpperJiraTickets,
   stripBrackets,
   addCommaSpaceBetweenJiraTickets,
-  surroundTicketListWithBrackets
+  surroundTicketListWithBrackets,
 }

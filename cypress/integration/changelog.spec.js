@@ -1,34 +1,10 @@
 /// <reference types="Cypress" />
-const { jirafyChangelog, parseChangelogForJiraTickets, toUpperJiraTickets, addMarkupToChangelog, 
-        stripBrackets, addCommaSpaceBetweenJiraTickets, surroundTicketListWithBrackets } = require('../../utils/changelog')
+const { jirafyChangelog,
+    toUpperJiraTickets, addMarkupToChangelog,
+    stripBrackets, addCommaSpaceBetweenJiraTickets,
+    surroundTicketListWithBrackets } = require('../../utils/changelog')
 
 describe('Jirafy Changelog', () => {
-    var jiraTickets
-    var baseChangelog
-
-    before(() => {
-        cy.exec('./changelog.sh v1.2.0 v1.0.0 onXmaps').then((r) => {
-            cy.log('Base changelog', r.stdout)
-            baseChangelog = r.stdout
-        })
-    })
-
-    context('changelog', () => {
-        it('ensures accurate changelog is generated', () => {
-            cy.fixture('changelog.md').then((expected_changelog) => {
-                expect(baseChangelog).to.equal(expected_changelog)
-            })
-        })
-
-        it('ensures changelog is not generated when there are no changes', () => {
-            cy.exec('./changelog.sh v1.2.0 2f18fe6 onXmaps').then((r) => {
-                console.log(r)
-                cy.log(r.stdout)
-                expect(r.stdout).to.equal('No Changes.')
-            })
-        })
-    })
-
     context('smoke test', () => {
         it('jirafyChangelog', () => {
             cy.fixture('smoke_test_base.md').then((s_t_b) => {
@@ -43,19 +19,26 @@ describe('Jirafy Changelog', () => {
         })
     })
 
-    context('formatting', () => {
-        beforeEach(() => {
-            cy.wrap({ jirafyChangelog })
-                .invoke('jirafyChangelog', baseChangelog)
-                .then((changelog) => {
-                    cy.wrap({ parseChangelogForJiraTickets })
-                        .invoke('parseChangelogForJiraTickets', changelog)
-                        .then((tickets) => {
-                            jiraTickets = tickets
-                        })
+    context('changelog', () => {
+        it('ensures accurate changelog is generated', () => {
+            cy.exec('./changelog.sh v1.2.0 v1.0.0 onXmaps').then(changelog => changelog.stdout)
+                .then((actualChangelog) => {
+                    cy.fixture('changelog.md').then((expectedChangelog) => {
+                        expect(actualChangelog).to.equal(expectedChangelog)
+                    })
                 })
         })
 
+        it('ensures changelog is not generated when there are no changes', () => {
+            cy.exec('./changelog.sh v1.2.0 2f18fe6 onXmaps').then((r) => {
+                console.log(r)
+                cy.log(r.stdout)
+                expect(r.stdout).to.equal('No Changes.')
+            })
+        })
+    })
+
+    context('formatting', () => {
         it('ensures changelog is stripped of brackets', () => {
             cy.fixture('changelog_brackets.md').then((ch_b) => {
                 cy.wrap({ stripBrackets })
@@ -117,9 +100,15 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        it('ensures branch references are not identified as jira tickets', () => {
-            jiraTickets.forEach((ticket) => {
-                expect(ticket).to.not.equal('changelog-1')
+        it('ensures branch references containing jira tickets are are identified', () => {
+            cy.fixture('changelog_branch_reference_base.md').then((ch_b_r_b) => {
+                cy.wrap({ jirafyChangelog })
+                    .invoke('jirafyChangelog', ch_b_r_b)
+                    .then((actualChangelog) => {
+                        cy.fixture('changelog_branch_reference.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
             })
         })
     })
