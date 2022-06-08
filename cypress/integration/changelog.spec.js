@@ -78,7 +78,6 @@ describe('Jirafy Changelog', () => {
                 cy.wrap({ addMarkupToChangelog })
                     .invoke('addMarkupToChangelog', ch_m_n)
                     .then((ch_m) => {
-                        debugger
                         cy.fixture('markup/anonymized_changelog_markup.md').then((expectedChangelog) => {
                             expect(ch_m).to.equal(expectedChangelog)
                         })

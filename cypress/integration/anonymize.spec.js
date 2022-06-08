@@ -7,7 +7,6 @@ describe('Anonymize Utility', () => {
         it('anonymize', () => {
             cy.task('getFiles', { test: true }).then((files) => {
                 files.forEach(file => {
-                    debugger
                     cy.anonymize(file, '', true)
                 })
             })
