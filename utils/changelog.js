@@ -1,5 +1,5 @@
 const core = require('@actions/core')
-var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('JIRA_HOST')
+var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
 
 /**
  * Strips referenced jira tickets that are already surrounded by brackets

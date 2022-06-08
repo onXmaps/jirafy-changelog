@@ -1,0 +1,10 @@
+* [`eb75770`](http://github.com/arglebargle/commit/eb75770fc8eec516ec374fbccd1322607fcf87d2) [[`NRPT-1291`](https://arglebargle.atlassian.net/browse/NRPT-1291)] Use published action - Merge pull request #576 from author/org/branch-name
+* [`7b63447`](http://github.com/arglebargle/commit/7b63447493bad48713c77989a7dfbcc65815d8da) [[`BXOR-3497`](https://arglebargle.atlassian.net/browse/BXOR-3497)] Readme update & version bump - Merge pull request #969 from author/org/branch-name
+* [`c615edf`](http://github.com/arglebargle/commit/c615edf4b45e17cc53883ef15bb46322aa01e257) [[`GLHO-7412`](https://arglebargle.atlassian.net/browse/GLHO-7412)] Readme example release update - Merge pull request #468 from author/org/branch-name
+* [`710b198`](http://github.com/arglebargle/commit/710b19848f979c2acb86b022d67fb7d4705a12c3) [[`CPVK-4828`](https://arglebargle.atlassian.net/browse/CPVK-4828)] Image reference fix - Merge pull request #536 from author/org/branch-name
+* [`e6eff20`](http://github.com/arglebargle/commit/e6eff202d827a844ac78bd69adfa43497f2dddc7) Configure Renovate - Merge pull request #652 from author/org/branch-name
+* [`12276bd`](http://github.com/arglebargle/commit/12276bd3c19ef1fb0e0d6fda9baa869d67399acc) Update coltdorsey/jirafy-changelog action to v1.1.0 - Merge pull request #505 from author/org/branch-name
+* [`eada2a3`](http://github.com/arglebargle/commit/eada2a369759f1b8ce8217add69b997e64f04946) Update dependency prettier to v2.5.1 - Merge pull request #243 from author/org/branch-name
+* [`8d3e400`](http://github.com/arglebargle/commit/8d3e40021ec05c3678668efc60bf73ab69131a7e) Update dependency eslint to v8.4.1 - Merge pull request #057 from author/org/branch-name
+* [`491e51b`](http://github.com/arglebargle/commit/491e51b5136a4756c9f786afbb2690d0233cc9af) Update dependency @vercel/ncc to v0.33.0 - Merge pull request #081 from author/org/branch-name
+* [`537b166`](http://github.com/arglebargle/commit/537b166583bc7ea02ff73b15dae727f5854e1278) [[`JIMC-7231`](https://arglebargle.atlassian.net/browse/JIMC-7231)] Updating references - Merge pull request #805 from author/org/branch-name

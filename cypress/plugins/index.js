@@ -1,17 +1,3 @@
-/// <reference types="cypress" />
-// ***********************************************************
-// This example plugins/index.js can be used to load plugins
-//
-// You can change the location of this file or turn off loading
-// the plugins file with the 'pluginsFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/plugins-guide
-// ***********************************************************
-
-// This function is called when a project is opened or re-opened (e.g. due to
-// the project's config changing)
-
 /**
  * @type {Cypress.PluginConfig}
  */
@@ -20,9 +6,33 @@ module.exports = (on, config) => {
   require('dotenv').config()
   config.env = config.env || {}
 
+  // process.env.JIRA_HOST is a production variable.
+  // For unit tests, we want to set this as a 
+  // cypress env variable too 
   config.env.JIRA_HOST = process.env.JIRA_HOST
-  console.log('process.env.JIRA_HOST: ', process.env.JIRA_HOST)
-  console.log('extended config.env with process.env.{JIRA_HOST}')
-  
+  console.log("JIRA_HOST: " + config.env.JIRA_HOST)
+
+  const fs = require('fs')
+
+  on('task', {
+    // Returns filenames in utility/anonymize or utility/convert_me
+    getFiles({test = false, convert = false}) {
+      var directory = 'utility/anonymize'
+
+      if(convert) {
+        directory = 'utility/convert_me'
+      }
+      
+      if(test) {
+        directory = `${directory}/test`
+      }
+
+      console.log("getFiles directory: ", `${config.fixturesFolder}/${directory}`)
+      const contents = fs.readdirSync(`${config.fixturesFolder}/${directory}`, { withFileTypes: true })
+
+      return contents.filter(c => c.isFile()).map(c => c.name)
+    },
+  })
+
   return config
 }

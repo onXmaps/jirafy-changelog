@@ -1,0 +1,11 @@
+* [`cd8564e`](http://github.com/arglebargle/commit/cd8564e58548e15adfef92d140e1470abe971d23) UTZD-9894 Use published action - Merge pull request #415 from author/org/branch-name
+* [`687efa8`](http://github.com/arglebargle/commit/687efa8fb4c2885e754fc5e79bb73fe8d130ce67) KDFK-2905 Readme update & version bump - Merge pull request #808 from author/org/branch-name
+* [`43f0d7b`](http://github.com/arglebargle/commit/43f0d7b0e394700787726edee027194baf96391c) MLPA-5852 Readme example release update - Merge pull request #203 from author/org/branch-name
+* [`23f7803`](http://github.com/arglebargle/commit/23f7803ccfdcda3070eea7caa94d804e3e96a325) SPSG-5890 Image, reference fix - Merge pull request #466 from author/org/branch-name
+* [`00e69f4`](http://github.com/arglebargle/commit/00e69f462a07414a5b90cef0bf75b5c8ce744b17) Configure Renovate - Merge pull request #928 from author/org/branch-name
+* [`8c7a2c3`](http://github.com/arglebargle/commit/8c7a2c39dbe61dfe302557f700e66c0dbb1bd2ea) Update coltdorsey/jirafy-changelog action to v1.1.0 - Merge pull request #381 from author/org/branch-name
+* [`f6b3001`](http://github.com/arglebargle/commit/f6b3001fabd3be79793cc6a9784cdaf6ba6bec1d) Update dependency prettier to v2.5.1 - Merge pull request #603 from author/org/branch-name
+* [`d607c5e`](http://github.com/arglebargle/commit/d607c5ee924231df465b9afd4c3e215c1cbd24b3) Update dependency eslint to v8.4.1 - Merge pull request #304 from author/org/branch-name
+* [`6e89772`](http://github.com/arglebargle/commit/6e897721626cffb7cacee0132f4ac53a97ad14ab) Update dependency @vercel/ncc to v0.33.0 - Merge pull request #081 from author/org/branch-name
+* [`75a6873`](http://github.com/arglebargle/commit/75a6873bdb7ceefa304bd3588e31c06c65e88cdd) CDMC-3072, EEEF-0324, PBXA-3787 Updating references - Merge pull request #048 from author/org/branch-name
+* [`a67fdcb`](http://github.com/arglebargle/commit/a67fdcbb7b646f41625be00d78bf2d44bd9021b8) BYWU-9195, QONW-8378, QJNS-4593, DNTJ-0229 Updating references - Merge pull request #054 from author/org/branch-name
