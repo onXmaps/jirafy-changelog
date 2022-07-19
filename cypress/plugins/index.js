@@ -4,12 +4,13 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
   require('dotenv').config()
+  const core = require('@actions/core')
   config.env = config.env || {}
 
   // process.env.JIRA_HOST is a production variable.
   // For unit tests, we want to set this as a 
   // cypress env variable too 
-  config.env.JIRA_HOST = process.env.JIRA_HOST
+  config.env.JIRA_HOST = process.env.JIRA_HOST || core.getInput('jiraHost')
   console.log("JIRA_HOST: " + config.env.JIRA_HOST)
 
   const fs = require('fs')
