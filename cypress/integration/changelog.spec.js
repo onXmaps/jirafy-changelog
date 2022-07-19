@@ -33,6 +33,7 @@ describe('Jirafy Changelog', () => {
         it('ensures references to jira tickets are uppercase', () => {
             jiraTickets.forEach((ticket) => {
                 expect(ticket).to.equal(ticket.toUpperCase())
+                expect(ticket).to.equal(ticket.toUpperCase())
             })
         })
 
