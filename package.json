@@ -10,7 +10,7 @@
     "format-check": "prettier --check **/*.{js,yml,json}",
     "format": "prettier --write **/*.{js,yml,json}",
     "lint": "eslint ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx cypress run"
   },
   "repository": {
     "type": "git",
