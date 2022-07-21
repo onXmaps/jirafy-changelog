@@ -1,29 +1,28 @@
 # Anonymize utility
-Because changelogs can contain sensitive information, we created a utility to anonymize 
-the changelogs so they can be checked in as test data.
-
-What data is anonymized?
-Github data
-- github domains
-- github commit sha
-- pull request numbers
-
-Jira data
-- jira domains
-- jira tickets
+When collecting new data sets for unit tests, you will usually want to anonymize the data first because it may contain information from private repositories such as repository names, branches, authors, commit sha's, pr numbers, etc or references to jira tickets and domains.
 
 ## Using anonymize utility
-In the `cypress/fixtures/` directory there are subdirectories `anonymize` and `convert_me` directory. Move `.md` file in the respective root subdirectory to either anonymize fully or run a single utility function against a file. When the file is processed, it will be written to the `/test/done` directory.
+In the `cypress/fixtures/` directory there are sub-directories `anonymize` and `convert_me`. Use both of these directories when using the utility. Both the `anonymize` and `convert_me` directories also have a `test` sub-directory. These `test` sub-directories are for the utility unit tests to keep those test files separate from the files generated when using the utility. 
 
-`utility/anonymize` 
+The non-test directories are for the actual usage of the anonymize utility.
 
-// cypress/fixtures COMPLETED
-// cypress/fixtures/changelog.md
+### How do I use the anonymize utility?
+In the `./integration/anonymize.spec.js` file, under the `Utility usage` context you'll find two tests. Depending on your needs, you may use both tests as a one or two step process.
 
-// cypress/fixtures/utility/anonymize COMPLETED
-// cypress/fixtures/utility/anonymize/test
-// cypress/fixtures/utility/anonymize/test/done (these files get generated, and used in assertion)
+### (Step 1) Anonymize a changelog
+- Add your data to a `.md` file(s) in the `./utility/anonymize` directory
+- Run the test `anonymize changelog then jirafy it`. (The anonymized file(s) will be output into the `./utility/anonymize/done` directory and prefixed as "anonymized_")
 
-// cypress/fixtures/utility/convert_me COMPLETED
-// cypress/fixtures/utility/convert_me/test/test_convert_me.md
-// cypress/fixtures/utility/convert_me/test/done/test_convert_me.md (file is auto generated and used in assertion)
+### (Step 2) Run a changelog function on anonymized changelog
+- Move your `anonymized_*` file(s) to the `convert_me` directory
+- Modify the test `convert anonymized changelog` and replace reference to function `jirafyChangelog` to desired imported function
+
+Example
+
+```
+it('convert anonymized changelog', () => {
+    ...
+    ...
+    cy.wrap({ yourNewFunction })
+        .invoke('yourNewFunction', changelog)
+```

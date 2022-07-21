@@ -2,7 +2,9 @@ const crypto = require('crypto')
 const randomstring = require('randomstring')
 var jiraHost = Cypress.env('JIRA_HOST')
 var testJiraHost = Cypress.env("TEST_JIRA_HOST")
+// before anonymization
 const prodDomain = getDomain()
+// after anonymization
 const testDomain = getDomain(true)
 
 Cypress.Commands.add('anonymize', (file, changelog = '', test = false) => {
