@@ -1,0 +1,11 @@
+* [`9708a28`](http://github.com/arglebargle/commit/9708a28777caa84773f7032409929321a734f0e3) [NAJX-9283] Use published action - Merge pull request #072 from author/org/branch-name
+* [`6935141`](http://github.com/arglebargle/commit/6935141d87464441556ce53c88104c671002a9ab) [YOBB-9516] Readme update & version bump - Merge pull request #235 from author/org/branch-name
+* [`f9cf00a`](http://github.com/arglebargle/commit/f9cf00a7d7ffbb60dc5fd466f5fdca12e2aecbf7) [LITT-8472] Readme example release update - Merge pull request #914 from author/org/branch-name
+* [`348c71e`](http://github.com/arglebargle/commit/348c71e6d65d0010c84f28d4f2ba1914bad68b1d) [BQFL-2397] Image, reference fix - Merge pull request #150 from author/org/branch-name
+* [`315098b`](http://github.com/arglebargle/commit/315098bdf574c1673285d6293e73978dca452902) Configure Renovate - Merge pull request #321 from author/org/branch-name
+* [`9ff643d`](http://github.com/arglebargle/commit/9ff643d64c686eff32c98b6bda951394379215f0) Update coltdorsey/jirafy-changelog action to v1.1.0 - Merge pull request #922 from author/org/branch-name
+* [`fee1e06`](http://github.com/arglebargle/commit/fee1e066dd14ccb42c7f42469899eca0c50754b8) Update dependency prettier to v2.5.1 - Merge pull request #822 from author/org/branch-name
+* [`d8490a8`](http://github.com/arglebargle/commit/d8490a89132d140e6996c4ead6377e8316ac34fc) Update dependency eslint to v8.4.1 - Merge pull request #593 from author/org/branch-name
+* [`9e985f0`](http://github.com/arglebargle/commit/9e985f0bd7706bd79ed9ae269d77dfb65e5054ec) Update dependency @vercel/ncc to v0.33.0 - Merge pull request #946 from author/org/branch-name
+* [`5d6eaa1`](http://github.com/arglebargle/commit/5d6eaa10abad3cf510dce6513724476041227c03) [RCWQ-9043, HGAJ-4245, SXSZ-8680] Updating references - Merge pull request #326 from author/org/branch-name
+* [`7970f6b`](http://github.com/arglebargle/commit/7970f6ba66702f1dc9c6517973723958b2fc7443) [MFCH-5368, UXEZ-2030, VZUD-0430, JIBH-9408] Updating references - Merge pull request #273 from author/org/branch-name

@@ -1,0 +1,10 @@
+* [`a826ae4`](http://github.com/arglebargle/commit/a826ae48a2cc0c23c96e5c6fee3a5d208688b1cf) VQGW-1605 Use published action - Merge pull request #002 from author/org/branch-name
+* [`0f267bb`](http://github.com/arglebargle/commit/0f267bbf23712a00fd255610b8135855e69a2279) TQQW-9559 Readme update & version bump - Merge pull request #880 from author/org/branch-name
+* [`acc4247`](http://github.com/arglebargle/commit/acc424721198d329fc3fe48a81a3891c5f7b3a43) ZGSG-6025 Readme example release update - Merge pull request #592 from author/org/branch-name
+* [`8e6a98a`](http://github.com/arglebargle/commit/8e6a98ac8929cf9faf8187847f3faf1039acbe8c) HTCS-1371 Image reference fix - Merge pull request #628 from author/org/branch-name
+* [`794975b`](http://github.com/arglebargle/commit/794975b08e388e0c13404af1590d2cc2d1ec2752) Configure Renovate - Merge pull request #494 from author/org/branch-name
+* [`8eaaff3`](http://github.com/arglebargle/commit/8eaaff38d9136d46de141a3e82658c301c07223e) Update coltdorsey/jirafy-changelog action to v1.1.0 - Merge pull request #811 from author/org/branch-name
+* [`04f685c`](http://github.com/arglebargle/commit/04f685c7e25f56b4066c42f3917cbd6971791bd9) Update dependency prettier to v2.5.1 - Merge pull request #567 from author/org/branch-name
+* [`554f42b`](http://github.com/arglebargle/commit/554f42b386797f99e44c3746ae5b37a67942f478) Update dependency eslint to v8.4.1 - Merge pull request #205 from author/org/branch-name
+* [`c6a7b10`](http://github.com/arglebargle/commit/c6a7b1093be339d453fb2d371f92b0910c9863bf) Update dependency @vercel/ncc to v0.33.0 - Merge pull request #549 from author/org/branch-name
+* [`9be4e14`](http://github.com/arglebargle/commit/9be4e14cfbf547d21f9267988666c8cf4a616dbc) AAVU-8518, HHKO-2460,GVKD-1231 Updating references - Merge pull request #071 from author/org/branch-name

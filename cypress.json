@@ -1,5 +1,8 @@
 {
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "projectId": "kuhc36",
-  "videoUploadOnPasses": false
+  "videoUploadOnPasses": false,
+  "env": {
+    "TEST_JIRA_HOST": "arglebargle.atlassian.net"
+  }
 }

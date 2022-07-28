@@ -18,7 +18,7 @@ jobs:
         uses: ./
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
-          jiraHost: 'coltdorsey.atlassian.net'
+          jiraHost: ${{ secrets.JIRA_HOST }}
 
       - name: Create Release
         id: create_release

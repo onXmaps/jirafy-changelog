@@ -1,4 +1,5 @@
 node_modules
-.envrc
+.env
 cypress/screenshots
 cypress/videos
+cypress/downloads
