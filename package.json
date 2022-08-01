@@ -9,7 +9,6 @@
     "precommit": "npm run format && npm run build && git add dist/",
     "format-check": "prettier --check **/*.{js,yml,json}",
     "format": "prettier --write **/*.{js,yml,json}",
-    "lint": "eslint ./",
     "test": "npx cypress run"
   },
   "repository": {
