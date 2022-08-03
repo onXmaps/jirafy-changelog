@@ -42,7 +42,9 @@ async function run() {
       regexp.test(baseRef)
     ) {
       const resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
-      console.log(`resp: ${JSON.stringify(resp)}`)
+      console.log(`resp: ${JSON.stringify(resp.data)}`)
+      console.log(`tag: ${JSON.stringify(resp.data.name)}`)
+      console.log(`changelog: ${JSON.stringify(resp.data.body)}`)
       jirafyReleaseNotes(resp)
       //getChangelog(headRef, baseRef, owner + '/' + repo)
     } else {
@@ -66,9 +68,7 @@ async function generateReleaseNotes(owner, repo, previousTag, tag) {
 }
 
 function jirafyReleaseNotes(changelog) {
-  console.log(`Changelog: ${JSON.parse(changelog)}`)
-  console.log(`Changelog.body: ${JSON.parse(changelog.body)}`)
-  core.setOutput('changelog', jirafyChangelog(JSON.parse(changelog)))
+  core.setOutput('changelog', jirafyChangelog(JSON.parse(changelog.data.body)))
 }
 
 async function getChangelog(headRef, baseRef, repoName) {
