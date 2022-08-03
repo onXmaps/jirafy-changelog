@@ -9,7 +9,8 @@
     "precommit": "npm run format && npm run build && git add dist/",
     "format-check": "prettier --check **/*.{js,yml,json}",
     "format": "prettier --write **/*.{js,yml,json}",
-    "test": "npx cypress run"
+    "test": "npx cypress run",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "cypress": "^10.3.1",
     "dotenv": "^10.0.0",
     "prettier": "2.5.1",
-    "randomstring": "^1.2.2"
+    "randomstring": "^1.2.2",
+    "husky": "^8.0.0"
   }
 }
