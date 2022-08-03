@@ -9911,7 +9911,9 @@ async function run() {
       regexp.test(headRef) &&
       regexp.test(baseRef)
     ) {
-      getChangelog(headRef, baseRef, owner + '/' + repo)
+      const resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
+      jirafyReleaseNotes(resp.body)
+      //getChangelog(headRef, baseRef, owner + '/' + repo)
     } else {
       core.setFailed(
         'Branch names must contain only numbers, strings, underscores, periods, and dashes.',
@@ -9920,6 +9922,20 @@ async function run() {
   } catch (error) {
     core.setFailed(error.message)
   }
+}
+
+async function generateReleaseNotes(owner, repo, previousTag, tag) {
+  return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
+    owner: owner,//'OWNER',
+    repo: repo, //'REPO',
+    tag_name: 'v1.3.0', //'v1.0.0',
+    target_commitish: 'main',
+    previous_tag_name: 'v1.2.0' //'v0.9.2',
+  })
+}
+
+function jirafyReleaseNotes(changelog) {
+  core.setOutput('changelog', jirafyChangelog(changelog))
 }
 
 async function getChangelog(headRef, baseRef, repoName) {
