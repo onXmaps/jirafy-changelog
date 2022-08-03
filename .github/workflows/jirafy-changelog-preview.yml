@@ -2,7 +2,7 @@ name: jirafy-changelog-preview
 on: push
 
 jobs:
-  release:
+  jirafy-changelog-preview:
     runs-on: ubuntu-latest
     steps:
       # To use this repository's private action, you must check out the repository
