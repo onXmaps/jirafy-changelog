@@ -9912,8 +9912,8 @@ async function run() {
       regexp.test(baseRef)
     ) {
       const resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
-      console.log(`resp: ${resp}`)
-      jirafyReleaseNotes(resp.body)
+      console.log(`resp: ${JSON.stringify(resp)}`)
+      jirafyReleaseNotes(resp)
       //getChangelog(headRef, baseRef, owner + '/' + repo)
     } else {
       core.setFailed(
@@ -9936,8 +9936,9 @@ async function generateReleaseNotes(owner, repo, previousTag, tag) {
 }
 
 function jirafyReleaseNotes(changelog) {
-  console.log(`Changelog: ${changelog}`)
-  core.setOutput('changelog', jirafyChangelog(changelog))
+  console.log(`Changelog: ${JSON.parse(changelog)}`)
+  console.log(`Changelog.body: ${JSON.parse(changelog.body)}`)
+  core.setOutput('changelog', jirafyChangelog(JSON.parse(changelog)))
 }
 
 async function getChangelog(headRef, baseRef, repoName) {
