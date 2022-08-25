@@ -9915,7 +9915,9 @@ async function run() {
       console.log(`resp: ${JSON.stringify(resp.data)}`)
       console.log(`tag: ${JSON.stringify(resp.data.name)}`)
       console.log(`changelog: ${JSON.stringify(resp.data.body)}`)
-      jirafyReleaseNotes(resp)
+      console.log(`resp.data.body: ${resp.data.body}`)
+      core.setOutput('changelog', resp.data.body)
+      //jirafyReleaseNotes(resp.data.body)
       //getChangelog(headRef, baseRef, owner + '/' + repo)
     } else {
       core.setFailed(
