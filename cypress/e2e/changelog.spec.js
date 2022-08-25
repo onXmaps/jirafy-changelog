@@ -5,6 +5,9 @@ const { jirafyChangelog,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 
 const generateReleaseNotes = require('../../index')
+
+const core = require('@actions/core')
+const github = require('@actions/github')
 const ghToken = core.getInput('myToken')
 const {myToken, octokit} = require('../../index')
 const _octokit = new github.getOctokit(myToken)
@@ -17,11 +20,12 @@ describe('Jirafy Changelog', () => {
             cy.wrap({myToken})
                 .invoke('myToken').then((mt) => {
                     ghToken = mt
+                    core.info(`ghToken: ${ghToken}`)
                     cy.log(ghToken)
                     cy.wrap({octokit})
-                        .invoke('octokit').then((oct) => {
-                            _octokit = oct
-                            cy.log(_octokit)
+                    .invoke('octokit').then((oct) => {
+                        _octokit = oct
+                        core.info(`_octokit: ${_octokit}`)
                             cy.wrap({ generateReleaseNotes })
                                 .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
 
