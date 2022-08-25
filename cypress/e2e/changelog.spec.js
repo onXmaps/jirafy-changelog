@@ -4,8 +4,20 @@ const { jirafyChangelog,
     stripBrackets, addCommaSpaceBetweenJiraTickets,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 
+const generateReleaseNotes = require('../../index')
+
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
+        it.only('github api changelog', () => {
+            cy.wrap({ generateReleaseNotes })
+                .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
+                .then((actualChangelog) => {
+                    cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
+                        expect(actualChangelog.to.equal(expectedChangelog))
+                    })
+                })
+        })
+
         it('ensures accurate changelog is generated', () => {
             cy.exec('./changelog.sh v1.2.0 v1.0.0 onXmaps').then(changelog => changelog.stdout)
                 .then((actualChangelog) => {
