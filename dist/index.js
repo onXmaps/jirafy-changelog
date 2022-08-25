@@ -8608,7 +8608,9 @@ var __webpack_exports__ = {};
 "use strict";
 __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "generateReleaseNotes": () => (/* binding */ generateReleaseNotes)
+/* harmony export */   "generateReleaseNotes": () => (/* binding */ generateReleaseNotes),
+/* harmony export */   "octokit": () => (/* binding */ octokit),
+/* harmony export */   "myToken": () => (/* binding */ myToken)
 /* harmony export */ });
 const core = __nccwpck_require__(2186)
 const github = __nccwpck_require__(5438)

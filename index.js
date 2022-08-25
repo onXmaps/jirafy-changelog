@@ -78,5 +78,7 @@ try {
 }
 
 export {
-  generateReleaseNotes
+  generateReleaseNotes,
+  octokit,
+  myToken
 }

@@ -5,17 +5,32 @@ const { jirafyChangelog,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 
 const generateReleaseNotes = require('../../index')
+const ghToken = core.getInput('myToken')
+const {myToken, octokit} = require('../../index')
+const _octokit = new github.getOctokit(myToken)
+
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
         it.only('github api changelog', () => {
-            cy.wrap({ generateReleaseNotes })
-                .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
-                .then((actualChangelog) => {
-                    cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
-                        expect(actualChangelog.to.equal(expectedChangelog))
-                    })
+
+            cy.wrap({myToken})
+                .invoke('myToken').then(() => {
+
+                    cy.wrap({octokit})
+                        .invoke('octokit').then(() => {
+
+                            cy.wrap({ generateReleaseNotes })
+                                .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
+                                
+                                .then((actualChangelog) => {
+                                    cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
+                                        expect(actualChangelog.to.equal(expectedChangelog))
+                                    })
+                                })
+                        })
                 })
+
         })
 
         it('ensures accurate changelog is generated', () => {
