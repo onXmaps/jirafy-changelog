@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 const { jirafyChangelog } = require('../../utils/changelog')
 
-describe('Anonymize Utility', () => {
+describe.skip('Anonymize Utility', () => {
     // Utility unit tests read from /test and write to /test/done
     context('utility unit tests', () => {
         it('anonymize', () => {
