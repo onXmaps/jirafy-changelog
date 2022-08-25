@@ -1,9 +1,7 @@
 const core = require('@actions/core')
-const exec = require('@actions/exec')
 const github = require('@actions/github')
 const { jirafyChangelog } = require('./utils/changelog')
 
-const src = __dirname
 var headRef = core.getInput('head-ref')
 var baseRef = core.getInput('base-ref')
 const myToken = core.getInput('myToken')
@@ -13,7 +11,6 @@ const regexp = /^[.A-Za-z0-9_-]*$/
 
 async function run() {
   try {
-
     if (!headRef) {
       headRef = github.context.sha
     }
@@ -23,96 +20,55 @@ async function run() {
         owner: owner,
         repo: repo,
       })
+
       if (latestRelease) {
         baseRef = latestRelease.data.tag_name
       } else {
-        core.setFailed(
-          `There are no releases on ${owner}/${repo}. Tags are not releases.`,
-        )
+        core.setFailed(`There are no releases on ${owner}/${repo}. Tags are not releases.`)
       }
     }
 
-    console.log(`head-ref: ${headRef}`)
-    console.log(`base-ref: ${baseRef}`)
+    if (!!headRef && !!baseRef && regexp.test(headRef) && regexp.test(baseRef)) {
+      var resp
 
-    if (
-      !!headRef &&
-      !!baseRef &&
-      regexp.test(headRef) &&
-      regexp.test(baseRef)
-    ) {
-      const resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
-      console.log(`resp: ${JSON.stringify(resp.data)}`)
-      console.log(`tag: ${JSON.stringify(resp.data.name)}`)
-      console.log(`changelog: ${JSON.stringify(resp.data.body)}`)
-      console.log(`resp.data.body: ${resp.data.body}`)
-      core.setOutput('changelog', resp.data.body)
-      //jirafyReleaseNotes(resp.data.body)
-      //getChangelog(headRef, baseRef, owner + '/' + repo)
-    } else {
-      core.setFailed(
-        'Branch names must contain only numbers, strings, underscores, periods, and dashes.',
+      try {
+        resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
+      } catch (err) {
+        core.setFailed(`Could not generate changelog between references because: ${err.message}`)
+        process.exit(1)
+      }
+
+      console.log(
+        '\x1b[32m%s\x1b[0m',
+        `Changelog between ${baseRef} and ${headRef}:\n${resp.data.body}`,
       )
+
+      core.setOutput('changelog', jirafyChangelog(resp.data.body))
+
+    } else {
+      core.setFailed('Branch names must contain only numbers, strings, underscores, periods, and dashes.')
     }
   } catch (error) {
     core.setFailed(error.message)
   }
 }
 
+/**
+ * Generate a name and body describing a release via Github generate-notes API.
+ * @param {*} owner 
+ * @param {*} repo 
+ * @param {*} previousTag 
+ * @param {*} tag 
+ * @returns Object { name, body }
+ */
 async function generateReleaseNotes(owner, repo, previousTag, tag) {
   return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
-    owner: owner,//'OWNER',
-    repo: repo, //'REPO',
-    tag_name: 'v1.3.0', //'v1.0.0',
+    owner: owner,
+    repo: repo,
+    tag_name: tag,
     target_commitish: 'main',
-    previous_tag_name: 'v1.2.0' //'v0.9.2',
+    previous_tag_name: previousTag
   })
-}
-
-function jirafyReleaseNotes(changelog) {
-  core.setOutput('changelog', jirafyChangelog(JSON.parse(changelog.data.body)))
-}
-
-async function getChangelog(headRef, baseRef, repoName) {
-  try {
-    let output = ''
-    let err = ''
-
-    // These are option configurations for the @actions/exec lib`
-    const options = {}
-    options.listeners = {
-      stdout: (data) => {
-        output += data.toString()
-      },
-      stderr: (data) => {
-        err += data.toString()
-      },
-    }
-    options.cwd = './'
-
-    await exec.exec(
-      `${src}/changelog.sh`,
-      [headRef, baseRef, repoName],
-      options,
-    )
-
-    if (output) {
-      output = jirafyChangelog(output)
-      console.log(
-        '\x1b[32m%s\x1b[0m',
-        `Changelog between ${baseRef} and ${headRef}:\n${output}`,
-      )
-      core.setOutput('changelog', output)
-    } else {
-      core.setFailed(err)
-      process.exit(1)
-    }
-  } catch (err) {
-    core.setFailed(
-      `Could not generate changelog between references because: ${err.message}`,
-    )
-    process.exit(0)
-  }
 }
 
 try {
