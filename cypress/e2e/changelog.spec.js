@@ -15,14 +15,16 @@ describe('Jirafy Changelog', () => {
         it.only('github api changelog', () => {
 
             cy.wrap({myToken})
-                .invoke('myToken').then(() => {
-
+                .invoke('myToken').then((mt) => {
+                    ghToken = mt
+                    cy.log(ghToken)
                     cy.wrap({octokit})
-                        .invoke('octokit').then(() => {
-
+                        .invoke('octokit').then((oct) => {
+                            _octokit = oct
+                            cy.log(_octokit)
                             cy.wrap({ generateReleaseNotes })
                                 .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
-                                
+
                                 .then((actualChangelog) => {
                                     cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
                                         expect(actualChangelog.to.equal(expectedChangelog))
