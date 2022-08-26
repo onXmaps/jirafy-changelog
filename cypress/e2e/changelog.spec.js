@@ -4,13 +4,17 @@ const { jirafyChangelog,
     stripBrackets, addCommaSpaceBetweenJiraTickets,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 
-const generateReleaseNotes = require('../../index')
+const {generateReleaseNotes, myToken, octokit} = require('../../index')
 
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
         it.only('github api changelog', () => {
 
+            // cy.wrap({myToken})
+            //     .invoke('myToken').then((myToken) => {
+
+            //     })
 
             cy.wrap({ generateReleaseNotes })
                 .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
