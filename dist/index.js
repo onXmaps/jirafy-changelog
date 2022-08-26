@@ -8618,8 +8618,8 @@ const { jirafyChangelog } = __nccwpck_require__(4157)
 
 var headRef = core.getInput('head-ref')
 var baseRef = core.getInput('base-ref')
-const myToken = core.getInput('myToken')
-const octokit = new github.getOctokit(myToken)
+var myToken = core.getInput('myToken')
+var octokit = new github.getOctokit(myToken)
 const { owner, repo } = github.context.repo
 const regexp = /^[.A-Za-z0-9_-]*$/
 
@@ -8676,6 +8676,14 @@ async function run() {
  * @returns Object { name, body }
  */
 async function generateReleaseNotes(owner, repo, previousTag, tag) {
+  if(!myToken) {
+    myToken = core.getInput('myToken')
+  }
+
+  if(!octokit) {
+    octokit = new github.getOctokit(myToken)
+  }
+
   return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
     owner: owner,
     repo: repo,
