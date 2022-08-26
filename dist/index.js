@@ -8675,12 +8675,10 @@ async function run() {
  * @param {*} tag 
  * @returns Object { name, body }
  */
-async function generateReleaseNotes(owner, repo, previousTag, tag) {
-  if(!myToken) {
-    core.info('Getting github token for test.')
-    myToken = core.getInput('myToken')
-    octokit = new github.getOctokit(myToken)
-  }
+async function generateReleaseNotes(owner, repo, previousTag, tag) {  
+  core.info(`Current token is: ${myToken}`)
+  myToken = core.getInput('myToken')
+  octokit = new github.getOctokit(myToken)
 
   return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
     owner: owner,
