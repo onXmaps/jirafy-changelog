@@ -114,4 +114,3 @@ context('formatting', () => {
         })
     })
 })
-})
