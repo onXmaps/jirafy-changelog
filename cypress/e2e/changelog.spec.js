@@ -18,28 +18,28 @@ describe('Jirafy Changelog', () => {
                     cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
                         expect(actualChangelog.to.equal(expectedChangelog))
                     })
+
                 })
         })
     })
-})
 
-it('ensures accurate changelog is generated', () => {
-    cy.exec('./changelog.sh v1.2.0 v1.0.0 onXmaps').then(changelog => changelog.stdout)
-        .then((actualChangelog) => {
-            cy.fixture('changelog.md').then((expectedChangelog) => {
-                expect(actualChangelog).to.equal(expectedChangelog)
+    it('ensures accurate changelog is generated', () => {
+        cy.exec('./changelog.sh v1.2.0 v1.0.0 onXmaps').then(changelog => changelog.stdout)
+            .then((actualChangelog) => {
+                cy.fixture('changelog.md').then((expectedChangelog) => {
+                    expect(actualChangelog).to.equal(expectedChangelog)
+                })
             })
-        })
-})
+    })
 
-it('ensures changelog is not generated when there are no changes', () => {
-    cy.exec('./changelog.sh v1.2.0 2f18fe6 onXmaps').then((r) => {
-        console.log(r)
-        cy.log(r.stdout)
-        expect(r.stdout).to.equal('No Changes.')
+    it('ensures changelog is not generated when there are no changes', () => {
+        cy.exec('./changelog.sh v1.2.0 2f18fe6 onXmaps').then((r) => {
+            console.log(r)
+            cy.log(r.stdout)
+            expect(r.stdout).to.equal('No Changes.')
+        })
     })
 })
-    })
 
 context('formatting', () => {
     it('ensures changelog is stripped of brackets', () => {
