@@ -8677,10 +8677,8 @@ async function run() {
  */
 async function generateReleaseNotes(owner, repo, previousTag, tag) {
   if(!myToken) {
+    core.info('Getting github token for test.')
     myToken = core.getInput('myToken')
-  }
-
-  if(!octokit) {
     octokit = new github.getOctokit(myToken)
   }
 
