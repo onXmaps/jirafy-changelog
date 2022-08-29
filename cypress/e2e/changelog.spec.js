@@ -5,25 +5,41 @@ const { jirafyChangelog,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 
 const {generateReleaseNotes, myToken, octokit} = require('../../index')
+const core = require('@actions/core')
+const github = require('@actions/github')
 
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
         it.only('github api changelog', () => {
 
+            const owner = 'onXmaps'
+            const repo = 'jirafy-changelog'
+
+            const myToken = core.getInput('myToken')
+            const octokit = new github.getOctokit(myToken)
+            return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
+                owner: owner,
+                repo: repo,
+                tag_name: '1.3.0',
+                target_commitish: 'main',
+                previous_tag_name: '1.2.0'
+            })
+
+
             // cy.wrap({myToken})
             //     .invoke('myToken').then((myToken) => {
 
             //     })
 
-            cy.wrap({ generateReleaseNotes })
-                .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
-                .then((actualChangelog) => {
-                    cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
-                        expect(actualChangelog.to.equal(expectedChangelog))
-                    })
+            // cy.wrap({ generateReleaseNotes })
+            //     .invoke('generateReleaseNotes', 'onXmaps', 'jirafy-changelog', '1.2.0', '1.3.0')
+            //     .then((actualChangelog) => {
+            //         cy.fixture('changelog/changelog.md').then((expectedChangelog) => {
+            //             expect(actualChangelog.to.equal(expectedChangelog))
+            //         })
 
-                })
+            //     })
         })
     })
 
