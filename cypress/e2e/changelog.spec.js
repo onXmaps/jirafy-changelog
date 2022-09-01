@@ -8,7 +8,7 @@ const repo = 'jirafy-changelog'
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
-        it.only('github api changelog - different tag', () => {
+        it('github api changelog - different tag', () => {
             cy.request({
                 method: 'POST',
                 url: `https://api.github.com/repos/${owner}/${repo}/releases/generate-notes`,
@@ -29,7 +29,7 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        it.only('github api changelog - same tag', () => {
+        it('github api changelog - same tag', () => {
             cy.request({
                 method: 'POST',
                 url: `https://api.github.com/repos/${owner}/${repo}/releases/generate-notes`,
