@@ -8614,9 +8614,9 @@ async function run() {
         resp = await octokit.rest.repos.generateReleaseNotes({
           owner: owner,
           repo: repo,
-          tag_name: tag,
+          tag_name: headRef,
           target_commitish: 'main',
-          previous_tag_name: previousTag
+          previous_tag_name: baseRef
         })
 
         //resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
