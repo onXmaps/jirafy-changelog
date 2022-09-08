@@ -8599,19 +8599,20 @@ async function run() {
         owner: owner,
         repo: repo,
       })
-
+      
       if (latestRelease) {
         baseRef = latestRelease.data.tag_name
       } else {
         core.setFailed(`There are no releases on ${owner}/${repo}. Tags are not releases.`)
       }
     }
-
+    
     if (!!headRef && !!baseRef && regexp.test(headRef) && regexp.test(baseRef)) {
       var resp
       
-      core.info(`Default branch is ${github.event.repository.default_branch}`)
-      
+      const defaultBranch = await octokit.rest.repos.default_branch
+      core.info(`Default branch is ${defaultBranch}`)
+
       try {
         resp = await octokit.rest.repos.generateReleaseNotes({
           owner: owner,
