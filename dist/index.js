@@ -8609,7 +8609,9 @@ async function run() {
 
     if (!!headRef && !!baseRef && regexp.test(headRef) && regexp.test(baseRef)) {
       var resp
-
+      
+      core.info(`Default branch is ${github.event.repository.default_branch}`)
+      
       try {
         resp = await octokit.rest.repos.generateReleaseNotes({
           owner: owner,
@@ -8619,7 +8621,6 @@ async function run() {
           previous_tag_name: baseRef
         })
 
-        //resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
       } catch (err) {
         core.setFailed(`Could not generate changelog between references because: ${err.message}`)
         process.exit(1)
