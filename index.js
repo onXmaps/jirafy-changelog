@@ -32,7 +32,15 @@ async function run() {
       var resp
 
       try {
-        resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
+        resp = await octokit.rest.repos.generateReleaseNotes({
+          owner: owner,
+          repo: repo,
+          tag_name: tag,
+          target_commitish: 'main',
+          previous_tag_name: previousTag
+        })
+
+        //resp = await generateReleaseNotes(owner, repo, baseRef, headRef)
       } catch (err) {
         core.setFailed(`Could not generate changelog between references because: ${err.message}`)
         process.exit(1)
@@ -61,15 +69,15 @@ async function run() {
  * @param {*} tag 
  * @returns Object { name, body }
  */
-async function generateReleaseNotes(owner, repo, previousTag, tag) {  
-  return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
-    owner: owner,
-    repo: repo,
-    tag_name: tag,
-    target_commitish: 'main',
-    previous_tag_name: previousTag
-  })
-}
+// async function generateReleaseNotes(owner, repo, previousTag, tag) {  
+//   return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
+//     owner: owner,
+//     repo: repo,
+//     tag_name: tag,
+//     target_commitish: 'main',
+//     previous_tag_name: previousTag
+//   })
+// }
 
 try {
   run()
