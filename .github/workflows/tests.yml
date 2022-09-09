@@ -20,5 +20,5 @@ jobs:
           group: 'unit tests'
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_myToken: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_githubToken: ${{ secrets.GITHUB_TOKEN }}
           JIRA_HOST: ${{ secrets.JIRA_HOST }}

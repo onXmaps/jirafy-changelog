@@ -13,7 +13,7 @@ describe('Jirafy Changelog', () => {
                 method: 'POST',
                 url: `https://api.github.com/repos/${owner}/${repo}/releases/generate-notes`,
                 headers: {
-                    'Authorization': `Bearer ${Cypress.env('myToken')}`
+                    'Authorization': `Bearer ${Cypress.env('githubToken')}`
                 },
                 body: {
                     owner: owner,
@@ -34,7 +34,7 @@ describe('Jirafy Changelog', () => {
                 method: 'POST',
                 url: `https://api.github.com/repos/${owner}/${repo}/releases/generate-notes`,
                 headers: {
-                    'Authorization': `Bearer ${Cypress.env('myToken')}`
+                    'Authorization': `Bearer ${Cypress.env('githubToken')}`
                 },
                 body: {
                     owner: owner,

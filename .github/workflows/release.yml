@@ -17,7 +17,7 @@ jobs:
         id: changelog
         uses: ./
         with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: ${{ secrets.JIRA_HOST }}
 
       - name: Create Release

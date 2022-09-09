@@ -4,10 +4,10 @@ const { jirafyChangelog } = require('./utils/changelog')
 
 var headRef = core.getInput('head-ref')
 var baseRef = core.getInput('base-ref')
-var myToken = core.getInput('myToken')
-var octokit = new github.getOctokit(myToken)
+var githubToken = core.getInput('githubToken')
+var octokit = new github.getOctokit(githubToken)
 const { owner, repo } = github.context.repo
-const regexp = /^[.A-Za-z0-9_-]*$/
+const gitRefRegexp = /^[.A-Za-z0-9_\-\/]+$/
 
 async function run() {
   try {
@@ -28,18 +28,14 @@ async function run() {
       }
     }
     
-    if (!!headRef && !!baseRef && regexp.test(headRef) && regexp.test(baseRef)) {
+    if (!!headRef && !!baseRef && gitRefRegexp.test(headRef) && gitRefRegexp.test(baseRef)) {
       var resp
-      
-      const defaultBranch = await octokit.rest.repos
-      core.info(`Default branch is ${JSON.stringify(defaultBranch)}`)
 
       try {
         resp = await octokit.rest.repos.generateReleaseNotes({
           owner: owner,
           repo: repo,
           tag_name: headRef,
-          target_commitish: 'main',
           previous_tag_name: baseRef
         })
 
@@ -56,30 +52,12 @@ async function run() {
       core.setOutput('changelog', jirafyChangelog(resp.data.body))
 
     } else {
-      core.setFailed('Branch names must contain only numbers, strings, underscores, periods, and dashes.')
+      core.setFailed('Git ref names must contain one or more numbers, strings, underscores, periods, slashes and dashes.')
     }
   } catch (error) {
     core.setFailed(error.message)
   }
 }
-
-/**
- * Generate a name and body describing a release via Github generate-notes API.
- * @param {*} owner 
- * @param {*} repo 
- * @param {*} previousTag 
- * @param {*} tag 
- * @returns Object { name, body }
- */
-// async function generateReleaseNotes(owner, repo, previousTag, tag) {  
-//   return await octokit.request(`POST /repos/${owner}/${repo}/releases/generate-notes`, {
-//     owner: owner,
-//     repo: repo,
-//     tag_name: tag,
-//     target_commitish: 'main',
-//     previous_tag_name: previousTag
-//   })
-// }
 
 try {
   run()
