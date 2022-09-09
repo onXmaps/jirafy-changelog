@@ -8599,8 +8599,6 @@ async function run() {
         owner: owner,
         repo: repo,
       })
-
-      core.info(`latest release info: ${JSON.stringify(latestRelease)}`)
       
       if (latestRelease) {
         baseRef = latestRelease.data.tag_name
@@ -8612,8 +8610,8 @@ async function run() {
     if (!!headRef && !!baseRef && regexp.test(headRef) && regexp.test(baseRef)) {
       var resp
       
-      const defaultBranch = await octokit.rest.repos.default_branch
-      core.info(`Default branch is ${defaultBranch}`)
+      const defaultBranch = await octokit.rest.repos
+      core.info(`Default branch is ${JSON.stringify(defaultBranch)}`)
 
       try {
         resp = await octokit.rest.repos.generateReleaseNotes({
