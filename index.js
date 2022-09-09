@@ -20,6 +20,8 @@ async function run() {
         owner: owner,
         repo: repo,
       })
+
+      core.info(`latest release info: ${latestRelease.data}`)
       
       if (latestRelease) {
         baseRef = latestRelease.data.tag_name
