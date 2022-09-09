@@ -8600,7 +8600,7 @@ async function run() {
         repo: repo,
       })
 
-      core.info(`latest release info: ${latestRelease.data}`)
+      core.info(`latest release info: ${JSON.stringify(latestRelease.data)}`)
       
       if (latestRelease) {
         baseRef = latestRelease.data.tag_name
