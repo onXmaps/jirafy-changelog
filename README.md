@@ -9,11 +9,11 @@ I wanted to include a link to Jira tickets that were linked in Pull Request(s) t
 
 ## Inputs
 
-### `mytoken`
+### `githubToken`
 
 A GITHUB_TOKEN with the ability to pull from the repo in question. This is required.
 
-Why do we need `myToken`? Read more [here](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret)
+Why do we need `githubToken`? Read more [here](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/authenticating-with-the-github_token#about-the-github_token-secret)
 
 ### `head-ref`
 
@@ -61,7 +61,7 @@ jobs:
         id: changelog
         uses: onXmaps/jirafy-changelog@v1.0.0
         with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           jiraHost: ${{ secrets.JIRA_HOST }}
           
       - name: Create Release
@@ -90,7 +90,7 @@ If you have two specific references you want:
   with:
     head-ref: 'v0.0.2'
     base-ref: 'v0.0.1'
-    myToken: ${{ secrets.GITHUB_TOKEN }}
+    githubToken: ${{ secrets.GITHUB_TOKEN }}
     jiraHost: ${{ secrets.JIRA_HOST }}
 ```
 

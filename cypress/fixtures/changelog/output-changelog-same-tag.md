@@ -1,0 +1,1 @@
+**Full Changelog**: https://github.com/onXmaps/jirafy-changelog/compare/v1.3.0...v1.3.0

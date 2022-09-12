@@ -2,7 +2,7 @@ name: 'Jirafy Changelog'
 description: 'Generates a changelog from two references, where the markdown is formatted for any referenced Jira stories.'
 
 inputs:
-  mytoken:
+  githubToken:
     description: 'Your GITHUB_TOKEN'
     default: ''
     required: true

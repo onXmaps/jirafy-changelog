@@ -1,0 +1,17 @@
+name: jirafy-changelog-preview
+on: push
+
+jobs:
+  jirafy-changelog-preview:
+    runs-on: ubuntu-latest
+    steps:
+      # To use this repository's private action, you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Jirafy Changelog
+        id: changelog
+        uses: ./
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          jiraHost: ${{ secrets.JIRA_HOST }}

@@ -1,9 +1,10 @@
-name: jirafy-changelog-and-release
+# Create a draft release to preview changelog without submitting production releases
+name: Draft Release
 on:
   push:
     # Sequence of patterns matched against refs/tags
     tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v1.0.0
+      - 'v.*(-alpha|-beta).*' # Tag push events, i.e. v1.0.0-alpha, v1.0.0-alpha.1 v1.0.1-beta
 
 jobs:
   release:
@@ -29,22 +30,5 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
+          draft: true
           prerelease: false
-
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-
-      - run: npm install --production
-
-      # Sync the changelog with Jira projects / Tickets
-      - name: Jirafy Sync
-        uses: onXmaps/jirafy-sync@v2.0.1
-        with:
-          changelog: ${{ steps.changelog.outputs.changelog }}
-          jiraVersion: ${{ github.ref_name }}
-          jiraHost: ${{ secrets.JIRA_HOST }}
-          jiraUsername: ${{ secrets.JIRA_USERNAME }}
-          jiraToken: ${{ secrets.JIRA_TOKEN }}

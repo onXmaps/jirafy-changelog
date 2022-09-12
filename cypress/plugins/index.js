@@ -1,6 +1,9 @@
 /**
  * @type {Cypress.PluginConfig}
  */
+
+const core = require('@actions/core')
+
 // eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
   require('dotenv').config()
@@ -10,6 +13,8 @@ module.exports = (on, config) => {
   // For unit tests, we want to set this as a 
   // cypress env variable too 
   config.env.JIRA_HOST = process.env.JIRA_HOST
+  // only needed for locally read env variables read from .env files
+  config.env.GITHUB_TOKEN = process.env.GITHUB_TOKEN
   console.log("JIRA_HOST: " + config.env.JIRA_HOST)
 
   const fs = require('fs')

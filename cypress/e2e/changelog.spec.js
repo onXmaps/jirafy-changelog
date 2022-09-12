@@ -3,23 +3,50 @@ const { jirafyChangelog,
     toUpperJiraTickets, addMarkupToChangelog,
     stripBrackets, addCommaSpaceBetweenJiraTickets,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
+const owner = 'onxmaps'
+const repo = 'jirafy-changelog'
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
-        it('ensures accurate changelog is generated', () => {
-            cy.exec('./changelog.sh v1.2.0 v1.0.0 onXmaps').then(changelog => changelog.stdout)
-                .then((actualChangelog) => {
-                    cy.fixture('changelog.md').then((expectedChangelog) => {
-                        expect(actualChangelog).to.equal(expectedChangelog)
-                    })
+        it('github api changelog - different tag', () => {
+            cy.request({
+                method: 'POST',
+                url: `https://api.github.com/repos/${owner}/${repo}/releases/generate-notes`,
+                headers: {
+                    'Authorization': `Bearer ${Cypress.env('GITHUB_TOKEN')}`
+                },
+                body: {
+                    owner: owner,
+                    repo: repo,
+                    tag_name: 'v1.3.0',
+                    target_commitish: 'main',
+                    previous_tag_name: 'v1.2.0'
+                }
+            }).then((resp) => {
+                cy.fixture('changelog/output-changelog-different-tag.md').then((expectedChangelog) => {
+                    expect(resp.body.body).to.equal(expectedChangelog)
                 })
+            })
         })
 
-        it('ensures changelog is not generated when there are no changes', () => {
-            cy.exec('./changelog.sh v1.2.0 2f18fe6 onXmaps').then((r) => {
-                console.log(r)
-                cy.log(r.stdout)
-                expect(r.stdout).to.equal('No Changes.')
+        it('github api changelog - same tag', () => {
+            cy.request({
+                method: 'POST',
+                url: `https://api.github.com/repos/${owner}/${repo}/releases/generate-notes`,
+                headers: {
+                    'Authorization': `Bearer ${Cypress.env('GITHUB_TOKEN')}`
+                },
+                body: {
+                    owner: owner,
+                    repo: repo,
+                    tag_name: 'v1.3.0',
+                    target_commitish: 'main',
+                    previous_tag_name: 'v1.3.0'
+                }
+            }).then((resp) => {
+                cy.fixture('changelog/output-changelog-same-tag.md').then((expectedChangelog) => {
+                    expect(resp.body.body).to.equal(expectedChangelog)
+                })
             })
         })
     })
