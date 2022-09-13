@@ -58,11 +58,11 @@ describe('Jirafy Changelog', () => {
 
     context('formatting', () => {
         it('ensures changelog is stripped of brackets', () => {
-            cy.fixture('brackets/input-brackets.md').then((input) => {
+            cy.fixture('stripBrackets/input-brackets.md').then((input) => {
                 cy.wrap({ stripBrackets })
                     .invoke('stripBrackets', input)
                     .then((actualChangelog) => {
-                        cy.fixture('brackets/output-without-brackets.md').then((expectedChangelog) => {
+                        cy.fixture('stripBrackets/output-without-brackets.md').then((expectedChangelog) => {
                             expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
