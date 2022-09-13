@@ -94,7 +94,7 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        it.only('ensures jira tickets referenced are displayed with proper comma and spacing', () => {
+        it('ensures jira tickets referenced are displayed with proper comma and spacing', () => {
             cy.fixture('addCommaSpaceBetweenJiraTickets/input-multiple-tickets.md').then((input) => {
                 cy.wrap({ addCommaSpaceBetweenJiraTickets })
                     .invoke('addCommaSpaceBetweenJiraTickets', input)
