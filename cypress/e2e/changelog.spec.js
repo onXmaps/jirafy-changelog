@@ -1,4 +1,5 @@
 /// <reference types="Cypress" />
+const core = require('@actions/core')
 var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
 
 const { jirafyChangelog,
@@ -10,6 +11,7 @@ const repo = 'jirafy-changelog'
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
+        // TODO verify
         it('github api changelog - different tag', () => {
             cy.request({
                 method: 'POST',
@@ -31,6 +33,7 @@ describe('Jirafy Changelog', () => {
             })
         })
 
+        // TODO verify
         it('github api changelog - same tag', () => {
             cy.request({
                 method: 'POST',
@@ -55,69 +58,72 @@ describe('Jirafy Changelog', () => {
 
     context('formatting', () => {
         it('ensures changelog is stripped of brackets', () => {
-            cy.fixture('brackets/anonymized_changelog_brackets.md').then((ch_b) => {
+            cy.fixture('brackets/input-brackets.md').then((input) => {
                 cy.wrap({ stripBrackets })
-                    .invoke('stripBrackets', ch_b)
-                    .then((ch_n_b) => {
-                        cy.fixture('brackets/anonymized_changelog_brackets_none.md').then((expectedChangelog) => {
-                            expect(ch_n_b).to.equal(expectedChangelog)
+                    .invoke('stripBrackets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('brackets/output-without-brackets.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
         it('ensures jira tickets referenced are surrounded by brackets', () => {
-            cy.fixture('brackets/anonymized_changelog_brackets_none.md').then((ch_n_b) => {
+            cy.fixture('surroundTicketListWithBrackets/input-without-brackets.md').then((input) => {
                 cy.wrap({ surroundTicketListWithBrackets })
-                    .invoke('surroundTicketListWithBrackets', ch_n_b)
-                    .then((ch_b) => {
-                        cy.fixture('brackets/anonymized_changelog_brackets.md').then((expectedChangelog) => {
-                            expect(ch_b).to.equal(expectedChangelog)
+                    .invoke('surroundTicketListWithBrackets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('surroundTicketListWithBrackets/output-normalized-brackets.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
+        // TODO fix and verify
         it('ensures references to jira tickets are uppercase', () => {
-            cy.fixture('lowercase/anonymized_changelog_lowercase.md').then((ch_l) => {
+            cy.fixture('toUpperJiraTickets/input-before-uppercasing-jira-key.md').then((input) => {
                 cy.wrap({ toUpperJiraTickets })
-                    .invoke('toUpperJiraTickets', ch_l)
-                    .then((ch_u) => {
-                        cy.fixture('lowercase/anonymized_changelog_lowercase_none.md').then((expectedChangelog) => {
-                            expect(ch_u).to.equal(expectedChangelog)
+                    .invoke('toUpperJiraTickets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('toUpperJiraTickets/output-uppercase-jira-key.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
-        it('ensures jira tickets referenced are displayed with proper and spacing', () => {
-            cy.fixture('comma_space/anonymized_changelog_comma_space_no.md').then((ch_c_s_b) => {
+        it.only('ensures jira tickets referenced are displayed with proper comma and spacing', () => {
+            cy.fixture('addCommaSpaceBetweenJiraTickets/input-multiple-tickets.md').then((input) => {
                 cy.wrap({ addCommaSpaceBetweenJiraTickets })
-                    .invoke('addCommaSpaceBetweenJiraTickets', ch_c_s_b)
-                    .then((ch_c_s) => {
-                        cy.fixture('comma_space/anonymized_changelog_comma_space.md').then((expectedChangelog) => {
-                            expect(ch_c_s).to.equal(expectedChangelog)
+                    .invoke('addCommaSpaceBetweenJiraTickets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('addCommaSpaceBetweenJiraTickets/output-multiple-tickets-normalized-separators.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
+        // TODO create data and verify
         it('ensures referenced jira tickets include markup', () => {
-            cy.fixture('markup/anonymized_changelog_markup_no.md').then((ch_m_n) => {
+            cy.fixture('addJiraLinksToChangelog/input-before-adding-links.md').then((input) => {
                 cy.wrap({ addJiraLinksToChangelog })
-                    .invoke('addJiraLinksToChangelog', ch_m_n)
-                    .then((ch_m) => {
-                        cy.fixture('markup/anonymized_changelog_markup.md').then((expectedChangelog) => {
-                            expect(ch_m).to.equal(expectedChangelog)
+                    .invoke('addJiraLinksToChangelog', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('addJiraLinksToChangelog/output-after-adding-links.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
-        it('ensures branch references containing jira tickets are are identified', () => {
-            cy.fixture('branch_reference/anonymized_changelog_branch_reference_base.md').then((ch_b_r_b) => {
+        // TODO verify
+        it('ensures branch references containing jira tickets are identified', () => {
+            cy.fixture('branch_reference/anonymized_changelog_branch_reference_base.md').then((input) => {
                 cy.wrap({ jirafyChangelog })
-                    .invoke('jirafyChangelog', ch_b_r_b)
+                    .invoke('jirafyChangelog', input)
                     .then((actualChangelog) => {
                         cy.fixture('branch_reference/anonymized_changelog_branch_reference.md').then((expectedChangelog) => {
                             expect(actualChangelog).to.equal(expectedChangelog)

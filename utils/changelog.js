@@ -43,7 +43,7 @@ function toUpperJiraTickets(changelog) {
 
 /**
  * Separates referenced Jira Tickets with a comma space format.
- * Assumes tickets are uppercase.
+ * Assumes tickets are uppercase and brackets have been removed.
  * @param {String} changelog
  * @returns Modified changelog
  */
@@ -51,8 +51,8 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
   var revisedChangelog
 
   try {
-    // const regex = /([A-Z][A-Z0-9]+-\d+)(\,?|\,?\s?)(?=[A-Z][A-Z0-9]+-\d+)/g
-    const regex = /([A-Z][A-Z0-9]+-\d+)[, ]*}/g
+    const regex = /([A-Z][A-Z0-9]+-\d+)[, ]*(?=[A-Z][A-Z0-9]+-\d+)/g
+
     revisedChangelog = changelog.replace(regex, '$1, ')
   } catch (error) {
     console.log(error)
@@ -64,7 +64,7 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
 
 /**
  * Surrounds jira ticket list with brackets.
- * Assumes tickets are uppercase and separated by a comma and space.
+ * Assumes tickets are uppercase and separated by a comma and space, and brackets have been removed
  * @param {String} changelog
  * @returns Modified changelog
  */

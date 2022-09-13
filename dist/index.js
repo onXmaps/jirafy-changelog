@@ -8277,10 +8277,10 @@ function wrappy (fn, cb) {
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const core = __nccwpck_require__(2186)
-var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
 
 /**
- * Strips referenced jira tickets that are already surrounded by brackets
+ * Strips referenced jira tickets that are already surrounded by brackets.
+ * Assumes tickets are uppercase.
  * @param {String} changelog
  * @returns Modified changelog
  */
@@ -8288,8 +8288,9 @@ function stripBrackets(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /(?:\[)([a-zA-Z0-9]+-\d+)(?:\]?)|(?:\[)*([a-zA-Z0-9]+-\d+)(?:\])/g
-    revisedChangelog = changelog.replace(regex, '$1$2')
+    // const regex = /(?:\[)([A-Z][A-Z0-9]+-\d+)(?:\]?)|(?:\[)*([A-Z][A-Z0-9]+-\d+)(?:\])/g
+    const regex = /(?:\[?)([A-Z][A-Z0-9]+-\d+)(?:\]?)/g // remove any matched or unmatched bracket adjacent to a JIRA ticket number
+    revisedChangelog = changelog.replace(regex, '$1')
   } catch (error) {
     console.log(error)
     core.setFailed(error.message)
@@ -8299,7 +8300,7 @@ function stripBrackets(changelog) {
 }
 
 /**
- * Formats referenced jira tickets to uppercase
+ * Formats referenced jira tickets to uppercase.
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
@@ -8307,7 +8308,8 @@ function toUpperJiraTickets(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /([a-zA-Z0-9]+)(-\d+)(?=([a-zA-Z0-9]+)(-\d+)(?=\s|\,))|([a-zA-Z0-9]+)(-\d+)(?=\s|\,)/g
+    // const regex = /([a-zA-Z][a-zA-Z0-9]+)(-\d+)(?=([a-zA-Z][a-zA-Z0-9]+)(-\d+)(?=\s|\,))|([a-zA-Z][a-zA-Z0-9]+)(-\d+)(?=\s|\,)/g
+    const regex = /([a-zA-Z][a-zA-Z0-9]+-\d+)[, ]*}/g
     revisedChangelog = changelog.replace(regex, (p1) => p1.toUpperCase())
   } catch (error) {
     console.log(error)
@@ -8318,7 +8320,8 @@ function toUpperJiraTickets(changelog) {
 }
 
 /**
- * Separates referenced Jira Tickets with a comma space format
+ * Separates referenced Jira Tickets with a comma space format.
+ * Assumes tickets are uppercase and brackets have been removed.
  * @param {String} changelog
  * @returns Modified changelog
  */
@@ -8326,7 +8329,8 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /([A-Z0-9]+-\d+)(\,?|\,?\s?)(?=[A-Z0-9]+-\d+)/g
+    const regex = /([A-Z][A-Z0-9]+-\d+)[, ]*(?=[A-Z][A-Z0-9]+-\d+)/g
+
     revisedChangelog = changelog.replace(regex, '$1, ')
   } catch (error) {
     console.log(error)
@@ -8337,7 +8341,8 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
 }
 
 /**
- * Surrounds jira ticket list with brackets
+ * Surrounds jira ticket list with brackets.
+ * Assumes tickets are uppercase and separated by a comma and space, and brackets have been removed
  * @param {String} changelog
  * @returns Modified changelog
  */
@@ -8345,7 +8350,8 @@ function surroundTicketListWithBrackets(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /((?:[A-Z0-9]+-\d+\,\s)*(?:[A-Z0-9]+-\d+))/g
+    // const regex = /((?:[A-Z][A-Z0-9]+-\d+\,\s)*(?:[A-Z][A-Z0-9]+-\d+))/g
+    const regex = /((?:[A-Z][A-Z0-9]+-\d+\, )*(?:[A-Z][A-Z0-9]+-\d+))/g
     revisedChangelog = changelog.replace(regex, '[$1]')
   } catch (error) {
     console.log(error)
@@ -8356,7 +8362,7 @@ function surroundTicketListWithBrackets(changelog) {
 }
 
 /**
- * Adds Jira markdown links to a given changelog for referenced Jira Tickets
+ * Adds Jira markdown links to a given changelog for referenced Jira Tickets.
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
@@ -8364,7 +8370,7 @@ function addJiraLinksToChangelog(changelog) {
   var revisedChangelog
 
   try {
-    const regex = /([A-Z0-9]+-\d+)/g
+    const regex = /([A-Z][A-Z0-9]+-\d+)/g
     revisedChangelog = changelog.replace(regex, `[\`$1\`](https://${jiraHost}/browse/$1)`)
   } catch (error) {
     console.log(error)
@@ -8380,6 +8386,7 @@ function addJiraLinksToChangelog(changelog) {
  * @returns Modified changelog
  */
 function formatChangelog(changelog) {
+  // TODO can this funciton be inlined into jirafyChangelog?
   var revisedChangelog = toUpperJiraTickets(changelog)
   revisedChangelog = stripBrackets(revisedChangelog)
   revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
@@ -8392,7 +8399,7 @@ function formatChangelog(changelog) {
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
-function jirafyChangelog(changelog) {
+function jirafyChangelog(changelog, jiraHost) {
   return formatChangelog(changelog)
 }
 
