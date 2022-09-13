@@ -81,7 +81,6 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        // TODO fix and verify
         it('ensures references to jira tickets are uppercase', () => {
             cy.fixture('toUpperJiraTickets/input-before-uppercasing-jira-key.md').then((input) => {
                 cy.wrap({ toUpperJiraTickets })

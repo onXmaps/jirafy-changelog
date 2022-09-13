@@ -8308,8 +8308,7 @@ function toUpperJiraTickets(changelog) {
   var revisedChangelog
 
   try {
-    // const regex = /([a-zA-Z][a-zA-Z0-9]+)(-\d+)(?=([a-zA-Z][a-zA-Z0-9]+)(-\d+)(?=\s|\,))|([a-zA-Z][a-zA-Z0-9]+)(-\d+)(?=\s|\,)/g
-    const regex = /([a-zA-Z][a-zA-Z0-9]+-\d+)[, ]*}/g
+    const regex = /([a-zA-Z][a-zA-Z0-9]+-\d+)/g
     revisedChangelog = changelog.replace(regex, (p1) => p1.toUpperCase())
   } catch (error) {
     console.log(error)
