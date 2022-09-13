@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
+var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
+
 const { jirafyChangelog,
-    toUpperJiraTickets, addMarkupToChangelog,
+    toUpperJiraTickets, addJiraLinksToChangelog,
     stripBrackets, addCommaSpaceBetweenJiraTickets,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 const owner = 'onxmaps'
@@ -102,8 +104,8 @@ describe('Jirafy Changelog', () => {
 
         it('ensures referenced jira tickets include markup', () => {
             cy.fixture('markup/anonymized_changelog_markup_no.md').then((ch_m_n) => {
-                cy.wrap({ addMarkupToChangelog })
-                    .invoke('addMarkupToChangelog', ch_m_n)
+                cy.wrap({ addJiraLinksToChangelog })
+                    .invoke('addJiraLinksToChangelog', ch_m_n)
                     .then((ch_m) => {
                         cy.fixture('markup/anonymized_changelog_markup.md').then((expectedChangelog) => {
                             expect(ch_m).to.equal(expectedChangelog)

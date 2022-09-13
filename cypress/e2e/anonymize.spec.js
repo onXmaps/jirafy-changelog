@@ -1,5 +1,6 @@
 /// <reference types="Cypress" />
 const { jirafyChangelog } = require('../../utils/changelog')
+var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
 
 describe('Anonymize Utility', () => {
     // Utility unit tests read from /test and write to /test/done

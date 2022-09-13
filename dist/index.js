@@ -8356,11 +8356,11 @@ function surroundTicketListWithBrackets(changelog) {
 }
 
 /**
- * Adds markup to a given changelog for referenced Jira Tickets
+ * Adds Jira markdown links to a given changelog for referenced Jira Tickets
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
-function addMarkupToChangelog(changelog) {
+function addJiraLinksToChangelog(changelog) {
   var revisedChangelog
 
   try {
@@ -8380,11 +8380,11 @@ function addMarkupToChangelog(changelog) {
  * @returns Modified changelog
  */
 function formatChangelog(changelog) {
-  var revisedChangelog = stripBrackets(changelog)
-  revisedChangelog = toUpperJiraTickets(revisedChangelog)
+  var revisedChangelog = toUpperJiraTickets(changelog)
+  revisedChangelog = stripBrackets(revisedChangelog)
   revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
   revisedChangelog = surroundTicketListWithBrackets(revisedChangelog)
-  return addMarkupToChangelog(revisedChangelog)
+  return addJiraLinksToChangelog(revisedChangelog)
 }
 
 /**
@@ -8398,7 +8398,7 @@ function jirafyChangelog(changelog) {
 
 module.exports = {
   jirafyChangelog,
-  addMarkupToChangelog,
+  addJiraLinksToChangelog,
   toUpperJiraTickets,
   stripBrackets,
   addCommaSpaceBetweenJiraTickets,
