@@ -8380,26 +8380,16 @@ function addJiraLinksToChangelog(changelog) {
 }
 
 /**
- * Formats the given changelog for output
+ * Formats a changelog and adds Jira markdown links for referenced Jira Tickets
  * @param {String} changelog
- * @returns Modified changelog
+ * @returns {String} Modified changelog
  */
-function formatChangelog(changelog) {
-  // TODO can this funciton be inlined into jirafyChangelog?
+function jirafyChangelog(changelog, jiraHost) {
   var revisedChangelog = toUpperJiraTickets(changelog)
   revisedChangelog = stripBrackets(revisedChangelog)
   revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
   revisedChangelog = surroundTicketListWithBrackets(revisedChangelog)
   return addJiraLinksToChangelog(revisedChangelog)
-}
-
-/**
- * Enhances a given changelog with consideration of referenced to Jira Tickets
- * @param {String} changelog
- * @returns {String} Modified changelog
- */
-function jirafyChangelog(changelog, jiraHost) {
-  return formatChangelog(changelog)
 }
 
 module.exports = {
