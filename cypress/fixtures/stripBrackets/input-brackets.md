@@ -7,7 +7,7 @@ ABC-123, ABC-124 No brackets multiple
 [ABC-123], ABC-124 Some brackets, but not all
 [ABC-123 Unmatched open bracket
 ABC-123] Unmatched closing bracket
-]ABC-1 Unmatched closing bracket at beginning - do we want to handle this?
-ABC-1[ Unmatched opening bracket at end - do we want to handle this?
-[[ABC-1]] Double brackets around ticket - do we want to handle this?
-[]ABC-1[] Matched set of brackets before or after ticket - do we want to handle this?
+]ABC-1 Unmatched closing bracket at beginning - no change
+ABC-1[ Unmatched opening bracket at end - no change
+[[ABC-1]] Double brackets around ticket - remove inner set of brackets
+[]ABC-1[] Matched set of brackets before or after ticket - no change
