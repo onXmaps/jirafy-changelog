@@ -1,7 +1,4 @@
 /// <reference types="Cypress" />
-const core = require('@actions/core')
-var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
-
 const { jirafyChangelog,
     toUpperJiraTickets, addJiraLinksToChangelog,
     stripBrackets, addCommaSpaceBetweenJiraTickets,
@@ -106,7 +103,7 @@ describe('Jirafy Changelog', () => {
         })
 
         // TODO create data and verify
-        it('ensures referenced jira tickets include markup', () => {
+        it.only('ensures markdown links are added to jira tickets', () => {
             cy.fixture('addJiraLinksToChangelog/input-before-adding-links.md').then((input) => {
                 cy.wrap({ addJiraLinksToChangelog })
                     .invoke('addJiraLinksToChangelog', input)
@@ -118,8 +115,8 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        // TODO verify
-        it('ensures branch references containing jira tickets are identified', () => {
+        // TODO update and verify
+        it.only('ensures markdown links are added to jira tickets referenced in branch names', () => {
             cy.fixture('branch_reference/anonymized_changelog_branch_reference_base.md').then((input) => {
                 cy.wrap({ jirafyChangelog })
                     .invoke('jirafyChangelog', input)
