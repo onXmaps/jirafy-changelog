@@ -101,9 +101,8 @@ describe('Jirafy Changelog', () => {
                     })
             })
         })
-
-        // TODO create data and verify
-        it.only('ensures markdown links are added to jira tickets', () => {
+        
+        it('ensures markdown links are added to jira tickets', () => {
             cy.fixture('addJiraLinksToChangelog/input-before-adding-links.md').then((input) => {
                 cy.wrap({ addJiraLinksToChangelog })
                     .invoke('addJiraLinksToChangelog', input)
@@ -114,14 +113,14 @@ describe('Jirafy Changelog', () => {
                     })
             })
         })
-
-        // TODO update and verify
-        it.only('ensures markdown links are added to jira tickets referenced in branch names', () => {
-            cy.fixture('branch_reference/anonymized_changelog_branch_reference_base.md').then((input) => {
+ 
+        // TODO repurpose this as an integration test for the jirafyChangelog function
+        it.skip('ensures a changelog is correctly and completely jirafied', () => {
+            cy.fixture('integration/input-original-changelog-before-jirafy.md').then((input) => {
                 cy.wrap({ jirafyChangelog })
                     .invoke('jirafyChangelog', input)
                     .then((actualChangelog) => {
-                        cy.fixture('branch_reference/anonymized_changelog_branch_reference.md').then((expectedChangelog) => {
+                        cy.fixture('integration/output-changelog-after-jirafy.md').then((expectedChangelog) => {
                             expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
