@@ -1,0 +1,1 @@
+TODO add e2e tests for jirafyChangelog function - this should fail until the tests are added
