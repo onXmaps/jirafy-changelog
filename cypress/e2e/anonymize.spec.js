@@ -56,7 +56,7 @@ describe('Anonymize Utility', () => {
 
         it('parse domain from jira host', () => {
             cy.getDomain(true).then((domain) => {
-                expect(domain).to.equal('arglebargle')
+                expect(domain).to.equal('example-org')
             })
         })
 
