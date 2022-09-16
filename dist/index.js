@@ -8385,7 +8385,7 @@ function addJiraLinksToChangelog(changelog) {
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
-function jirafyChangelog(changelog, jiraHost) {
+function jirafyChangelog(changelog) {
   var revisedChangelog = toUpperJiraTickets(changelog)
   revisedChangelog = stripBrackets(revisedChangelog)
   revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
