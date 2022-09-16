@@ -11,7 +11,6 @@ function stripBrackets(changelog) {
   var revisedChangelog
 
   try {
-    // const regex = /(?:\[)([A-Z][A-Z0-9]+-\d+)(?:\]?)|(?:\[)*([A-Z][A-Z0-9]+-\d+)(?:\])/g
     const regex = /(?:\[?)([A-Z][A-Z0-9]+-\d+)(?:\]?)/g // remove any matched or unmatched bracket adjacent to a JIRA ticket number
     revisedChangelog = changelog.replace(regex, '$1')
   } catch (error) {
@@ -72,7 +71,6 @@ function surroundTicketListWithBrackets(changelog) {
   var revisedChangelog
 
   try {
-    // const regex = /((?:[A-Z][A-Z0-9]+-\d+\,\s)*(?:[A-Z][A-Z0-9]+-\d+))/g
     const regex = /((?:[A-Z][A-Z0-9]+-\d+\, )*(?:[A-Z][A-Z0-9]+-\d+))/g
     revisedChangelog = changelog.replace(regex, '[$1]')
   } catch (error) {

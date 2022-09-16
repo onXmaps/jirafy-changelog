@@ -112,14 +112,24 @@ describe('Jirafy Changelog', () => {
             })
         })
  
-        // TODO repurpose this as an integration test for the jirafyChangelog function
-        it.only('ensures a changelog is correctly and completely jirafied', () => {
+        it('ensures a changelog is correctly and completely jirafied', () => {
             cy.fixture('jirafyChangelog/input-original-changelog-before-jirafy.md').then((input) => {
                 cy.wrap({ jirafyChangelog })
                     .invoke('jirafyChangelog', input)
                     .then((actualChangelog) => {
                         cy.fixture('jirafyChangelog/output-changelog-after-jirafy.md').then((expectedChangelog) => {
-                            debugger
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
+            })
+        })
+
+        it.only('[SDET-609] fails if known issues are still present', () => {
+            cy.fixture('jirafyChangelog/known-issues/sdet-609/input-sdet-609.md').then((input) => {
+                cy.wrap({ jirafyChangelog })
+                    .invoke('jirafyChangelog', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('jirafyChangelog/known-issues/sdet-609/output-sdet-609.md').then((expectedChangelog) => {
                             expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
