@@ -48,8 +48,9 @@ async function run() {
         '\x1b[32m%s\x1b[0m',
         `Changelog between ${baseRef} and ${headRef}:\n${resp.data.body}`,
       )
-
-      core.setOutput('changelog', jirafyChangelog(resp.data.body))
+      
+      const jirafiedChangelog = await jirafyChangelog(resp.data.body)
+      core.setOutput('changelog', jirafiedChangelog)
 
     } else {
       core.setFailed('Git ref names must contain one or more numbers, strings, underscores, periods, slashes and dashes.')
