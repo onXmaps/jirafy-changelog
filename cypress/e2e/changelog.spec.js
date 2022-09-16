@@ -124,7 +124,7 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        it.only('[SDET-609] fails if known issues are still present', () => {
+        it.skip('[SDET-609] fails if known issues are still present', () => {
             cy.fixture('jirafyChangelog/known-issues/sdet-609/input-sdet-609.md').then((input) => {
                 cy.wrap({ jirafyChangelog })
                     .invoke('jirafyChangelog', input)
