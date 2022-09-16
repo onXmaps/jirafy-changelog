@@ -8623,7 +8623,7 @@ async function run() {
       const baseChangelog = resp.data.body
       console.log(
         '\x1b[32m%s\x1b[0m',
-        `Changelog between ${baseRef} and ${headRef}:\n${baseChangelog}`,
+        `Base changelog between ${baseRef} and ${headRef}:\n${baseChangelog}`,
       )
 
       const jirafiedChangelog = jirafyChangelog(baseChangelog)
