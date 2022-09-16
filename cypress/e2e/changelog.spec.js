@@ -8,7 +8,6 @@ const repo = 'jirafy-changelog'
 
 describe('Jirafy Changelog', () => {
     context('changelog', () => {
-        // TODO verify
         it('github api changelog - different tag', () => {
             cy.request({
                 method: 'POST',
@@ -30,7 +29,6 @@ describe('Jirafy Changelog', () => {
             })
         })
 
-        // TODO verify
         it('github api changelog - same tag', () => {
             cy.request({
                 method: 'POST',
@@ -115,12 +113,13 @@ describe('Jirafy Changelog', () => {
         })
  
         // TODO repurpose this as an integration test for the jirafyChangelog function
-        it.skip('ensures a changelog is correctly and completely jirafied', () => {
-            cy.fixture('integration/input-original-changelog-before-jirafy.md').then((input) => {
+        it.only('ensures a changelog is correctly and completely jirafied', () => {
+            cy.fixture('jirafyChangelog/input-original-changelog-before-jirafy.md').then((input) => {
                 cy.wrap({ jirafyChangelog })
                     .invoke('jirafyChangelog', input)
                     .then((actualChangelog) => {
-                        cy.fixture('integration/output-changelog-after-jirafy.md').then((expectedChangelog) => {
+                        cy.fixture('jirafyChangelog/output-changelog-after-jirafy.md').then((expectedChangelog) => {
+                            debugger
                             expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
