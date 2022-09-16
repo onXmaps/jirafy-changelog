@@ -20,14 +20,14 @@ async function run() {
         owner: owner,
         repo: repo,
       })
-      
+
       if (latestRelease) {
         baseRef = latestRelease.data.tag_name
       } else {
         core.setFailed(`There are no releases on ${owner}/${repo}. Tags are not releases.`)
       }
     }
-    
+
     if (!!headRef && !!baseRef && gitRefRegexp.test(headRef) && gitRefRegexp.test(baseRef)) {
       var resp
 
@@ -44,12 +44,18 @@ async function run() {
         process.exit(1)
       }
 
+      const baseChangelog = resp.data.body
       console.log(
         '\x1b[32m%s\x1b[0m',
-        `Changelog between ${baseRef} and ${headRef}:\n${resp.data.body}`,
+        `Changelog between ${baseRef} and ${headRef}:\n${baseChangelog}`,
       )
-      
-      const jirafiedChangelog = await jirafyChangelog(resp.data.body)
+
+      const jirafiedChangelog = jirafyChangelog(baseChangelog)
+      console.log(
+        '\x1b[32m%s\x1b[0m',
+        `Jirafied Changelog:\n${jirafiedChangelog}`,
+      )
+
       core.setOutput('changelog', jirafiedChangelog)
 
     } else {
