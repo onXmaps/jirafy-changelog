@@ -4,8 +4,8 @@ const { jirafyChangelog } = require('./utils/changelog')
 
 var headRef = core.getInput('head-ref')
 var baseRef = core.getInput('base-ref')
-var githubToken = core.getInput('githubToken')
-var octokit = new github.getOctokit(githubToken)
+const githubToken = core.getInput('githubToken')
+const octokit = new github.getOctokit(githubToken)
 const { owner, repo } = github.context.repo
 const gitRefRegexp = /^[.A-Za-z0-9_\-\/]+$/
 
@@ -29,7 +29,7 @@ async function run() {
     }
 
     if (!!headRef && !!baseRef && gitRefRegexp.test(headRef) && gitRefRegexp.test(baseRef)) {
-      var resp
+      let resp
 
       try {
         resp = await octokit.rest.repos.generateReleaseNotes({

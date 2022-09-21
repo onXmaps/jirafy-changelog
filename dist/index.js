@@ -8286,10 +8286,11 @@ var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env
  * @returns Modified changelog
  */
 function stripBrackets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
-    const regex = /(?:\[?)([A-Z][A-Z0-9]+-\d+)(?:\]?)/g // remove any matched or unmatched bracket adjacent to a JIRA ticket number
+    // remove any matched or unmatched bracket adjacent to a JIRA ticket number
+    const regex = /(?:\[?)([A-Z][A-Z0-9]+-\d+)(?:\]?)/g
     revisedChangelog = changelog.replace(regex, '$1')
   } catch (error) {
     console.log(error)
@@ -8305,7 +8306,7 @@ function stripBrackets(changelog) {
  * @returns {String} Modified changelog
  */
 function toUpperJiraTickets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
     const regex = /([a-zA-Z][a-zA-Z0-9]+-\d+)/g
@@ -8325,7 +8326,7 @@ function toUpperJiraTickets(changelog) {
  * @returns Modified changelog
  */
 function addCommaSpaceBetweenJiraTickets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
     const regex = /([A-Z][A-Z0-9]+-\d+)[, ]*(?=[A-Z][A-Z0-9]+-\d+)/g
@@ -8346,7 +8347,7 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
  * @returns Modified changelog
  */
 function surroundTicketListWithBrackets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
     const regex = /((?:[A-Z][A-Z0-9]+-\d+\, )*(?:[A-Z][A-Z0-9]+-\d+))/g
@@ -8365,7 +8366,7 @@ function surroundTicketListWithBrackets(changelog) {
  * @returns {String} Modified changelog
  */
 function addJiraLinksToChangelog(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
     const regex = /([A-Z][A-Z0-9]+-\d+)/g
@@ -8384,7 +8385,7 @@ function addJiraLinksToChangelog(changelog) {
  * @returns {String} Modified changelog
  */
 function jirafyChangelog(changelog) {
-  var revisedChangelog = toUpperJiraTickets(changelog)
+  let revisedChangelog = toUpperJiraTickets(changelog)
   revisedChangelog = stripBrackets(revisedChangelog)
   revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
   revisedChangelog = surroundTicketListWithBrackets(revisedChangelog)
@@ -8578,8 +8579,8 @@ const { jirafyChangelog } = __nccwpck_require__(4157)
 
 var headRef = core.getInput('head-ref')
 var baseRef = core.getInput('base-ref')
-var githubToken = core.getInput('githubToken')
-var octokit = new github.getOctokit(githubToken)
+const githubToken = core.getInput('githubToken')
+const octokit = new github.getOctokit(githubToken)
 const { owner, repo } = github.context.repo
 const gitRefRegexp = /^[.A-Za-z0-9_\-\/]+$/
 
@@ -8603,7 +8604,7 @@ async function run() {
     }
 
     if (!!headRef && !!baseRef && gitRefRegexp.test(headRef) && gitRefRegexp.test(baseRef)) {
-      var resp
+      let resp
 
       try {
         resp = await octokit.rest.repos.generateReleaseNotes({
