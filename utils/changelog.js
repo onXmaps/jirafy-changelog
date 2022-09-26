@@ -2,16 +2,18 @@ const core = require('@actions/core')
 var jiraHost = core.getInput('jiraHost') || process.env.JIRA_HOST || Cypress.env('TEST_JIRA_HOST')
 
 /**
- * Strips referenced jira tickets that are already surrounded by brackets
+ * Strips referenced jira tickets that are already surrounded by brackets.
+ * Assumes tickets are uppercase.
  * @param {String} changelog
  * @returns Modified changelog
  */
 function stripBrackets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
-    const regex = /(?:\[)([a-zA-Z0-9]+-\d+)(?:\]?)|(?:\[)*([a-zA-Z0-9]+-\d+)(?:\])/g
-    revisedChangelog = changelog.replace(regex, '$1$2')
+    // remove any matched or unmatched bracket adjacent to a JIRA ticket number
+    const regex = /(?:\[?)([A-Z][A-Z0-9]+-\d+)(?:\]?)/g
+    revisedChangelog = changelog.replace(regex, '$1')
   } catch (error) {
     console.log(error)
     core.setFailed(error.message)
@@ -21,15 +23,15 @@ function stripBrackets(changelog) {
 }
 
 /**
- * Formats referenced jira tickets to uppercase
+ * Formats referenced jira tickets to uppercase.
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
 function toUpperJiraTickets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
-    const regex = /([a-zA-Z0-9]+)(-\d+)(?=([a-zA-Z0-9]+)(-\d+)(?=\s|\,))|([a-zA-Z0-9]+)(-\d+)(?=\s|\,)/g
+    const regex = /([a-zA-Z][a-zA-Z0-9]+-\d+)/g
     revisedChangelog = changelog.replace(regex, (p1) => p1.toUpperCase())
   } catch (error) {
     console.log(error)
@@ -40,15 +42,17 @@ function toUpperJiraTickets(changelog) {
 }
 
 /**
- * Separates referenced Jira Tickets with a comma space format
+ * Separates referenced Jira Tickets with a comma space format.
+ * Assumes tickets are uppercase and brackets have been removed.
  * @param {String} changelog
  * @returns Modified changelog
  */
 function addCommaSpaceBetweenJiraTickets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
-    const regex = /([A-Z0-9]+-\d+)(\,?|\,?\s?)(?=[A-Z0-9]+-\d+)/g
+    const regex = /([A-Z][A-Z0-9]+-\d+)[, ]*(?=[A-Z][A-Z0-9]+-\d+)/g
+
     revisedChangelog = changelog.replace(regex, '$1, ')
   } catch (error) {
     console.log(error)
@@ -59,15 +63,16 @@ function addCommaSpaceBetweenJiraTickets(changelog) {
 }
 
 /**
- * Surrounds jira ticket list with brackets
+ * Surrounds jira ticket list with brackets.
+ * Assumes tickets are uppercase and separated by a comma and space, and brackets have been removed
  * @param {String} changelog
  * @returns Modified changelog
  */
 function surroundTicketListWithBrackets(changelog) {
-  var revisedChangelog
+  let revisedChangelog
 
   try {
-    const regex = /((?:[A-Z0-9]+-\d+\,\s)*(?:[A-Z0-9]+-\d+))/g
+    const regex = /((?:[A-Z][A-Z0-9]+-\d+\, )*(?:[A-Z][A-Z0-9]+-\d+))/g
     revisedChangelog = changelog.replace(regex, '[$1]')
   } catch (error) {
     console.log(error)
@@ -78,15 +83,15 @@ function surroundTicketListWithBrackets(changelog) {
 }
 
 /**
- * Adds markup to a given changelog for referenced Jira Tickets
+ * Adds Jira markdown links to a given changelog for referenced Jira Tickets.
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
-function addMarkupToChangelog(changelog) {
-  var revisedChangelog
+function addJiraLinksToChangelog(changelog) {
+  let revisedChangelog
 
   try {
-    const regex = /([A-Z0-9]+-\d+)/g
+    const regex = /([A-Z][A-Z0-9]+-\d+)/g
     revisedChangelog = changelog.replace(regex, `[\`$1\`](https://${jiraHost}/browse/$1)`)
   } catch (error) {
     console.log(error)
@@ -97,30 +102,21 @@ function addMarkupToChangelog(changelog) {
 }
 
 /**
- * Formats the given changelog for output
- * @param {String} changelog
- * @returns Modified changelog
- */
-function formatChangelog(changelog) {
-  var revisedChangelog = stripBrackets(changelog)
-  revisedChangelog = toUpperJiraTickets(revisedChangelog)
-  revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
-  revisedChangelog = surroundTicketListWithBrackets(revisedChangelog)
-  return addMarkupToChangelog(revisedChangelog)
-}
-
-/**
- * Enhances a given changelog with consideration of referenced to Jira Tickets
+ * Formats a changelog and adds Jira markdown links for referenced Jira Tickets
  * @param {String} changelog
  * @returns {String} Modified changelog
  */
 function jirafyChangelog(changelog) {
-  return formatChangelog(changelog)
+  let revisedChangelog = toUpperJiraTickets(changelog)
+  revisedChangelog = stripBrackets(revisedChangelog)
+  revisedChangelog = addCommaSpaceBetweenJiraTickets(revisedChangelog)
+  revisedChangelog = surroundTicketListWithBrackets(revisedChangelog)
+  return addJiraLinksToChangelog(revisedChangelog)
 }
 
 module.exports = {
   jirafyChangelog,
-  addMarkupToChangelog,
+  addJiraLinksToChangelog,
   toUpperJiraTickets,
   stripBrackets,
   addCommaSpaceBetweenJiraTickets,

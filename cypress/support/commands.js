@@ -247,7 +247,7 @@ function domainSwap(changelog) {
 
     try {
         const regex = new RegExp(`(https:\/\/)(${jiraHost})`, 'g')
-        revisedChangelog = changelog.replace(regex, '$1arglebargle.atlassian.net')
+        revisedChangelog = changelog.replace(regex, '$1${testJiraHost}')
     } catch (error) {
         console.log(error)
     }

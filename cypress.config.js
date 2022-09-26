@@ -4,7 +4,7 @@ module.exports = defineConfig({
   projectId: 'kuhc36',
   videoUploadOnPasses: false,
   env: {
-    TEST_JIRA_HOST: 'arglebargle.atlassian.net',
+    TEST_JIRA_HOST: 'example-org.atlassian.net',
   },
   e2e: {
     // We've imported your old cypress plugins here.

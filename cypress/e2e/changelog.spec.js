@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 const { jirafyChangelog,
-    toUpperJiraTickets, addMarkupToChangelog,
+    toUpperJiraTickets, addJiraLinksToChangelog,
     stripBrackets, addCommaSpaceBetweenJiraTickets,
     surroundTicketListWithBrackets } = require('../../utils/changelog')
 const owner = 'onxmaps'
@@ -53,71 +53,83 @@ describe('Jirafy Changelog', () => {
 
     context('formatting', () => {
         it('ensures changelog is stripped of brackets', () => {
-            cy.fixture('brackets/anonymized_changelog_brackets.md').then((ch_b) => {
+            cy.fixture('stripBrackets/input-brackets.md').then((input) => {
                 cy.wrap({ stripBrackets })
-                    .invoke('stripBrackets', ch_b)
-                    .then((ch_n_b) => {
-                        cy.fixture('brackets/anonymized_changelog_brackets_none.md').then((expectedChangelog) => {
-                            expect(ch_n_b).to.equal(expectedChangelog)
+                    .invoke('stripBrackets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('stripBrackets/output-without-brackets.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
         it('ensures jira tickets referenced are surrounded by brackets', () => {
-            cy.fixture('brackets/anonymized_changelog_brackets_none.md').then((ch_n_b) => {
+            cy.fixture('surroundTicketListWithBrackets/input-without-brackets.md').then((input) => {
                 cy.wrap({ surroundTicketListWithBrackets })
-                    .invoke('surroundTicketListWithBrackets', ch_n_b)
-                    .then((ch_b) => {
-                        cy.fixture('brackets/anonymized_changelog_brackets.md').then((expectedChangelog) => {
-                            expect(ch_b).to.equal(expectedChangelog)
+                    .invoke('surroundTicketListWithBrackets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('surroundTicketListWithBrackets/output-normalized-brackets.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
             })
         })
 
         it('ensures references to jira tickets are uppercase', () => {
-            cy.fixture('lowercase/anonymized_changelog_lowercase.md').then((ch_l) => {
+            cy.fixture('toUpperJiraTickets/input-before-uppercasing-jira-key.md').then((input) => {
                 cy.wrap({ toUpperJiraTickets })
-                    .invoke('toUpperJiraTickets', ch_l)
-                    .then((ch_u) => {
-                        cy.fixture('lowercase/anonymized_changelog_lowercase_none.md').then((expectedChangelog) => {
-                            expect(ch_u).to.equal(expectedChangelog)
-                        })
-                    })
-            })
-        })
-
-        it('ensures jira tickets referenced are displayed with proper and spacing', () => {
-            cy.fixture('comma_space/anonymized_changelog_comma_space_no.md').then((ch_c_s_b) => {
-                cy.wrap({ addCommaSpaceBetweenJiraTickets })
-                    .invoke('addCommaSpaceBetweenJiraTickets', ch_c_s_b)
-                    .then((ch_c_s) => {
-                        cy.fixture('comma_space/anonymized_changelog_comma_space.md').then((expectedChangelog) => {
-                            expect(ch_c_s).to.equal(expectedChangelog)
-                        })
-                    })
-            })
-        })
-
-        it('ensures referenced jira tickets include markup', () => {
-            cy.fixture('markup/anonymized_changelog_markup_no.md').then((ch_m_n) => {
-                cy.wrap({ addMarkupToChangelog })
-                    .invoke('addMarkupToChangelog', ch_m_n)
-                    .then((ch_m) => {
-                        cy.fixture('markup/anonymized_changelog_markup.md').then((expectedChangelog) => {
-                            expect(ch_m).to.equal(expectedChangelog)
-                        })
-                    })
-            })
-        })
-
-        it('ensures branch references containing jira tickets are are identified', () => {
-            cy.fixture('branch_reference/anonymized_changelog_branch_reference_base.md').then((ch_b_r_b) => {
-                cy.wrap({ jirafyChangelog })
-                    .invoke('jirafyChangelog', ch_b_r_b)
+                    .invoke('toUpperJiraTickets', input)
                     .then((actualChangelog) => {
-                        cy.fixture('branch_reference/anonymized_changelog_branch_reference.md').then((expectedChangelog) => {
+                        cy.fixture('toUpperJiraTickets/output-uppercase-jira-key.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
+            })
+        })
+
+        it('ensures jira tickets referenced are displayed with proper comma and spacing', () => {
+            cy.fixture('addCommaSpaceBetweenJiraTickets/input-multiple-tickets.md').then((input) => {
+                cy.wrap({ addCommaSpaceBetweenJiraTickets })
+                    .invoke('addCommaSpaceBetweenJiraTickets', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('addCommaSpaceBetweenJiraTickets/output-multiple-tickets-normalized-separators.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
+            })
+        })
+        
+        it('ensures markdown links are added to jira tickets', () => {
+            cy.fixture('addJiraLinksToChangelog/input-before-adding-links.md').then((input) => {
+                cy.wrap({ addJiraLinksToChangelog })
+                    .invoke('addJiraLinksToChangelog', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('addJiraLinksToChangelog/output-after-adding-links.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
+            })
+        })
+ 
+        it('ensures a changelog is correctly and completely jirafied', () => {
+            cy.fixture('jirafyChangelog/input-original-changelog-before-jirafy.md').then((input) => {
+                cy.wrap({ jirafyChangelog })
+                    .invoke('jirafyChangelog', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('jirafyChangelog/output-changelog-after-jirafy.md').then((expectedChangelog) => {
+                            expect(actualChangelog).to.equal(expectedChangelog)
+                        })
+                    })
+            })
+        })
+
+        it.skip('[SDET-609] fails if known issues are still present', () => {
+            cy.fixture('jirafyChangelog/known-issues/sdet-609/input-sdet-609.md').then((input) => {
+                cy.wrap({ jirafyChangelog })
+                    .invoke('jirafyChangelog', input)
+                    .then((actualChangelog) => {
+                        cy.fixture('jirafyChangelog/known-issues/sdet-609/output-sdet-609.md').then((expectedChangelog) => {
                             expect(actualChangelog).to.equal(expectedChangelog)
                         })
                     })
