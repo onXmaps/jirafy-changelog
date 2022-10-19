@@ -1,3 +1,5 @@
+added a change
+
 [![Unit Tests](https://github.com/onXmaps/jirafy-changelog/actions/workflows/tests.yml/badge.svg)](https://github.com/onXmaps/jirafy-changelog/actions/workflows/tests.yml)
 # Jirafy Changelog
 This action generates a changelog from two references, where the markdown is formatted for any referenced Jira tickets.
